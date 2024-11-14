@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'adumyl.apps.AdumylConfig',
+    'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'adumylSite.urls'
@@ -80,13 +83,16 @@ WSGI_APPLICATION = 'adumylSite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd50a27949kf0ro',
-        'USER': 'u4696ussaa8n7q',
-        'PASSWORD': 'p8f8c28e2a88294fd10e87b6ba9ab675e21cceca0788dc75a5f2daeb7e8a84678',
-        'HOST': 'cackockmsmqaol.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com',
+        'NAME': 'dbnifoctnr5tn2',
+        'USER': 'ueu0dokn711cqa',
+        'PASSWORD': 'p771080414843e545561a10c52c51007d59dd15043bf5ef74f141b1b99e0e58f7',
+        'HOST': 'c8fjkh5jgmh0gl.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
+
+AUTH_USER_MODEL = 'adumyl.User'
+
 
 
 # Password validation
@@ -130,5 +136,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_WHITELIST = [
+     'http://localhost:3000'
+]
 
 django_heroku.settings(locals())
