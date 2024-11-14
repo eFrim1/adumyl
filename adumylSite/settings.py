@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-!^ur_yaf4p7xozdtsw#42h$486g+si*!)$9%hrs7+6nu)9iu%z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["https://dashboard.heroku.com/apps/adumyl"]
 
 
 # Application definition
@@ -77,8 +79,12 @@ WSGI_APPLICATION = 'adumylSite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd50a27949kf0ro',
+        'USER': 'u4696ussaa8n7q',
+        'PASSWORD': 'p8f8c28e2a88294fd10e87b6ba9ab675e21cceca0788dc75a5f2daeb7e8a84678',
+        'HOST': 'cackockmsmqaol.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -118,8 +124,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+django_heroku.settings(locals())
