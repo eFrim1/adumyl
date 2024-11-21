@@ -18,11 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from adumyl import views
+from adumyl.views import LoginView, SignUpView
 
-router = routers.DefaultRouter()
-router.register(r'sign_up', views.SignUpView, "adumyl")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('auth/login/', LoginView.as_view(), name='login'),
+    path('auth/signup/', SignUpView.as_view(), name='signup'),
 ]
