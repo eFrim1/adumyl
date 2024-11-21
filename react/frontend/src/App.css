@@ -1,0 +1,210 @@
+
+
+/* App.css */
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,700;1,300&display=swap");
+:root {
+  --primary-color: #20AB47;      /* buttons */
+  --secondary-color: #FFFFFF;       /* text */
+  --background-color: #22222A;
+  --background-color-secondary: #282831; /* backgrounds */
+  --input-background: #2D2E35;   /* input fields */
+  --text-color: #FFFFFF;            /* secondary text */
+  --border-color: #2D2E35;          /* Light border color for inputs */
+  --error-color: #ff4d4f;        /* Red for errors, if needed */
+
+  --font-family: work sans;
+  --font-weight: bold;
+  --base-padding: 3rem;
+  --base-margin: 2rem;
+  --border-radius: 10px;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight);
+  background-color: var(--background-color);
+  color: var(--secondary-color);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+  font-weight: var(--font-weight);
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  padding: var(--base-padding);
+  background-color: var(--input-background);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.container.secondary {
+  width: 100%;
+  padding: 4rem;
+  background-color: var(--background-color-secondary);
+}
+
+.form-group {
+  margin-bottom: var(--base-margin);
+  text-align: left;
+}
+
+/* Label styling */
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+}
+
+/* Input field styling */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 25rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--input-background);
+  color: var(--text-color);
+  box-sizing: border-box;
+}
+
+/* Button styling */
+button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: var(--primary-color) !important;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  margin-top: var(--base-margin);
+}
+
+button:hover {
+  background-color: #1a8e3a !important;
+}
+
+/* Links for secondary actions */
+.secondary-action {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/*
+ Sign Up
+*/
+
+
+.container.secondary.login {
+  display: inline-flex;
+  float: right;
+  flex-direction: column;
+  position: relative;
+  left: 30rem;
+  width: 32.75rem;
+}
+
+.submit-container {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem auto;
+  width: 25rem;
+  height: 5.5rem;
+  align-items: center;
+  justify-content: center;
+  background: #2D2E35;
+  border-radius: 3rem;
+}
+
+.submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10.5rem;
+  height: 4rem;
+  background: #FEA529;
+  border-radius: 3rem;
+}
+
+.submit.gray {
+  background: #2D2E35;
+}
+
+.rotated-square-container {
+  display: inline;
+  float: left;
+  width: 20rem;
+  height: 7rem;
+  top: 20rem;
+  position: relative;
+}
+
+.rotated-square {
+  position: relative;
+  width: 25rem; /* Adjust as needed */
+  height: 25rem; /* Adjust as needed */
+  background-color: var(--primary-color); /* Adjust color */
+  transform: rotate(45deg); /* Rotate the square */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  border-radius: 40px;
+  border: none;
+  opacity: 0.94;
+}
+
+.rotated-square.first {
+  /*position: absolute;*/
+  top: 15rem;
+  left: 25rem;
+  transform: rotate(-5deg);
+  background-image: url("assets/salad-signup.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.rotated-square.second {
+  /*position: absolute;*/
+  top: 25rem;
+  left: 30rem;
+  transform: rotate(10deg);
+  background-image: url("assets/pizza-signup.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.rotated-square.third {
+  /*position: absolute;*/
+  left: 20rem;
+  top: 35rem;
+  transform: rotate(-15deg);
+  text-align: center;
+  font-size: 5rem;
+}
