@@ -1,195 +1,215 @@
-import React, { Component } from 'react';
-import '../App.css'; // Custom styles for the sign-up page
+import React, { useState } from 'react';
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  useToast,
+} from '@chakra-ui/react';
 import { authenticateUser } from '../api/authApi';
-import {Button, Col, Container, Form, FormGroup, Input, Label, Row} from "reactstrap";
-import {Navigate, useNavigate} from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      viewLogin: false,
+const Login = () => {
+  const [viewLogin, setViewLogin] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [success, setSuccess] = useState(false);
+  const toast = useToast();
+
+  const toggleLogin = (status) => {
+    setViewLogin(status);
+    setFormData({
       firstName: '',
       lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
-      success: false,
-    };
-  }
-
-  toggleLogin = (status) => {
-    if(status){
-      return this.setState({viewLogin: true})
-    }
-
-    return  this.setState({viewLogin: false})
-  }
-
-  renderTab = () => {
-    return (
-        <div className="submit-container">
-          <div role="button" className={this.state.viewLogin? "submit gray": "submit"} onClick = {() => this.toggleLogin(false)} > SIGN UP</div>
-          <div role="button" className={this.state.viewLogin? "submit": "submit gray"} onClick = {() => this.toggleLogin(true)}> SIGN IN</div>
-        </div>
-    );
+    });
   };
 
-
-  handleChange = (e) => {
-    const {name, value} = e.target;
-    this.setState({[name]: value});
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const { viewLogin, firstName, lastName, email, password, confirmPassword } = this.state;
+    const { firstName, lastName, email, password, confirmPassword } = formData;
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      alert('Please enter a valid email address.');
+      toast({
+        title: 'Invalid email',
+        description: 'Please enter a valid email address.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
       return;
     }
 
     // Password validation for sign-up
     if (!viewLogin && password !== confirmPassword) {
-      alert('Passwords do not match!');
+      toast({
+        title: 'Password mismatch',
+        description: 'Passwords do not match!',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
       return;
     }
 
     const payload = viewLogin
-      ? { email, password } // Login payload
-      : { first_name: firstName, last_name: lastName, email, password, password_confirm: confirmPassword }; // Sign-up payload
+        ? { email, password } // Login payload
+        : { first_name: firstName, last_name: lastName, email, password, password_confirm: confirmPassword }; // Sign-up payload
 
     try {
-      const data = await authenticateUser(payload, viewLogin); // API call
-      this.setState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        success: true,
+      await authenticateUser(payload, viewLogin);
+      toast({
+        title: 'Success',
+        description: viewLogin ? 'Login successful!' : 'Sign-up successful!',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
       });
+
+      setSuccess(true);
     } catch (error) {
-      alert(error.message);
-      console.error(error);
+      toast({
+        title: 'Error',
+        description: error.message || 'An error occurred. Please try again.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     }
-};
-  debugLogin = async () => {
+  };
+
+  const debugLogin = async () => {
     const payload = {
-      email: "test25@gmail.com",
-      password: "test"
+      email: 'test25@gmail.com',
+      password: 'test',
     };
     await authenticateUser(payload, true);
-    this.setState({success: true})
+    setSuccess(true);
+  };
+
+  if (success) {
+    return <Navigate to="/home" />;
   }
 
+  return (
+      <Container maxW="container.sm" p="5" mt="10">
+        <Box  p={8} rounded="lg" shadow="lg">
+          <Heading textAlign="center" mb={6}>
+            Adumyl
+          </Heading>
+
+          {/* Tabs for Sign Up / Sign In */}
+          <Flex justify="center" mb={4}>
+            <Button
+                variant={viewLogin ? 'outline' : 'solid'}
+                mr={2}
+                onClick={() => toggleLogin(false)}
+            >
+              Sign Up
+            </Button>
+            <Button
+                variant={viewLogin ? 'solid' : 'outline'}
+                onClick={() => toggleLogin(true)}
+            >
+              Sign In
+            </Button>
+          </Flex>
 
 
-  render() {
-    const {viewLogin, firstName, lastName, email, password, confirmPassword, success } = this.state;
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={4}>
+              {!viewLogin && (
+                  <>
+                    <FormControl isRequired>
+                      <FormLabel>First Name</FormLabel>
+                      <Input
+                          id="firstName"
+                          name="firstName"
+                          placeholder="First name"
+                          value={formData.firstName}
+                          onChange={handleChange}
+                      />
+                    </FormControl>
+                    <FormControl isRequired>
+                      <FormLabel>Last Name</FormLabel>
+                      <Input
+                          id="lastName"
+                          name="lastName"
+                          placeholder="Last name"
+                          value={formData.lastName}
+                          onChange={handleChange}
+                      />
+                    </FormControl>
+                  </>
+              )}
 
-    return (
-        <Container fluid>
-          {success && (<Navigate to="/home"  />)}
-          <Row>
-          <Col >
-            <div className="rotated-square first position-absolute"></div>
-            <div className="rotated-square second position-absolute"></div>
-            <div className="rotated-square third  position-absolute">ENJOY<br/>Adumyl</div>
-          </Col>
-          <Container className="container secondary login">
-            <h1>Adumyl</h1>
-            {this.renderTab()}
-            <Form onSubmit={this.handleSubmit} className="login-form">
-              {!viewLogin &&
-                  <FormGroup>
-                    <Label for="first_name">
-                      First Name
-                    </Label>
-                    <Input
-                        id="first_name"
-                        name="firstName"
-                        placeholder="First name"
-                        value={firstName}
-                        onChange={this.handleChange}
-                        required={true}
-                    />
-                  </FormGroup>
-              }
-              {!viewLogin &&
-                  <FormGroup>
-                    <Label for="last_name">
-                      Last Name
-                    </Label>
-                    <Input
-                        id="last_name"
-                        name="lastName"
-                        placeholder="Last name"
-                        value={lastName}
-                        onChange={this.handleChange}
-                        required={true}
-                    />
-                  </FormGroup>
-              }
-
-              <FormGroup>
-                <Label for="email">
-                  Email
-                </Label>
+              <FormControl isRequired>
+                <FormLabel>Email</FormLabel>
                 <Input
                     id="email"
                     name="email"
-                    placeholder="Email"
                     type="email"
-                    value={email}
-                    onChange={this.handleChange}
-                    required={true}
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
                 />
-              </FormGroup>
-              <FormGroup>
-                <Label for="password">
-                  Password
-                </Label>
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel>Password</FormLabel>
                 <Input
                     id="password"
                     name="password"
-                    placeholder="Password"
                     type="password"
-                    value={password}
-                    onChange={this.handleChange}
-                    required={true}
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
                 />
-              </FormGroup>
+              </FormControl>
               {!viewLogin && (
-                  <FormGroup>
-                    <Label for="confirm_password">
-                      Confirm Password
-                    </Label>
+                  <FormControl isRequired>
+                    <FormLabel>Confirm Password</FormLabel>
                     <Input
-                        id="confirm_password"
+                        id="confirmPassword"
                         name="confirmPassword"
-                        placeholder="Password"
                         type="password"
-                        value={confirmPassword}
-                        onChange={this.handleChange}
-                        required={true}
+                        placeholder="Confirm Password"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
                     />
-                  </FormGroup>
+                  </FormControl>
               )}
-              <Button type="submit" size="lg">
-                {viewLogin ? 'Sign in' : "Let's start"}
+
+              <Button type="submit" size="lg" w="full">
+                {viewLogin ? 'Sign In' : "Let's Start"}
               </Button>
-              <Button type="button" size="lg" onClick={this.debugLogin}>Debug Login</Button>
-            </Form>
-          </Container>
-          </Row>
-        </Container>
-    );
-  }
-}
+              <Button type="button" size="lg" variant="outline" w="full" onClick={debugLogin}>
+                Debug Login
+              </Button>
+            </Stack>
+          </form>
+        </Box>
+      </Container>
+  );
+};
 
 export default Login;
