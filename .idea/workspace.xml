@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="06a7a047-da12-4774-bc3f-6abae277307e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adumyl/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumyl/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adumylSite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumylSite/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adumylSite/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumylSite/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +102,9 @@
       <workItem from="1731097385061" duration="1900000" />
       <workItem from="1731565175957" duration="12145000" />
       <workItem from="1731958668313" duration="4021000" />
-      <workItem from="1732171860124" duration="6981000" />
+      <workItem from="1732171860124" duration="10022000" />
+      <workItem from="1732656568141" duration="3545000" />
+      <workItem from="1732775332212" duration="243000" />
     </task>
     <servers />
   </component>
