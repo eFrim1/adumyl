@@ -5,6 +5,7 @@ import {ChakraProvider, extendTheme, withDefaultColorScheme} from '@chakra-ui/re
 
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
+import Profile from "./pages/Profile"
 
 const theme = extendTheme(
     {
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage/>} />
               <Route path="/home" element={<HomePage/>}/>
+              <Route path="/profile" element={<Profile/>}/>
           </Routes>
       </ChakraProvider>
   );
