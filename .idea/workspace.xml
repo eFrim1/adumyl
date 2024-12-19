@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06a7a047-da12-4774-bc3f-6abae277307e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/MenuTab.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/OrdersTab.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/OverviewTab.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/RegisterRestaurantForm.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/RestaurantTabs.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/MyRestaurant.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/ProfileInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/ProfileInfo.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,6 +113,7 @@
       <workItem from="1732775332212" duration="243000" />
       <workItem from="1732828164787" duration="2231000" />
       <workItem from="1733984219981" duration="1237000" />
+      <workItem from="1734619864088" duration="1124000" />
     </task>
     <servers />
   </component>

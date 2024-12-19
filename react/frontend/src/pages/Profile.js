@@ -5,6 +5,7 @@ import Navbar from "../components/NavBar";
 import ProfileInfo from "./profile_pages/ProfileInfo"; // Import the SideNavigation component
 import OrderHistory from "./profile_pages/OrderHistory";
 import orders, {orderHistory} from "../utils/demos";
+import MyRestaurant from "./profile_pages/MyRestaurant";
 
 const Profile = () => {
     // State to track the currently selected navigation item
@@ -23,7 +24,7 @@ const Profile = () => {
             case 'Order History':
                 return <OrderHistory orders={orderHistory()}/>;
             case 'My Restaurants':
-                return <Text>Manage the restaurants you own or follow.</Text>;
+                return <MyRestaurant />;
             case 'Delivery':
                 return <Text>Track or manage your delivery details here.</Text>;
             default:
