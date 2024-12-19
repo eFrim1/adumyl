@@ -7,9 +7,10 @@ import {
     Icon,
     Stack,
     Text,
-    Image, Spacer,
+    Image, Spacer, IconButton,
 } from '@chakra-ui/react';
-import { RepeatIcon } from '@chakra-ui/icons'; // Repeat icon from Chakra
+import { RepeatIcon } from '@chakra-ui/icons';
+import {FaAngleLeft, FaAngleRight} from "react-icons/fa6"; // Repeat icon from Chakra
 
 const LastOrders = ({orders}) => {
     // Mock data for orders
@@ -83,6 +84,7 @@ const LastOrders = ({orders}) => {
                         </Flex>
                     ))}
                 </Stack>
+
             </Flex>
         </Box>
     );
