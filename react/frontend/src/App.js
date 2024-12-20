@@ -6,6 +6,8 @@ import {ChakraProvider, extendTheme, withDefaultColorScheme} from '@chakra-ui/re
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile"
+import DeliveryTracker from "./pages/DeliveryTracker";
+import HelpPage from "./pages/HelpPage";
 
 const theme = extendTheme(
     {
@@ -38,6 +40,8 @@ function App() {
             <Route path="/" element={<LoginPage/>} />
               <Route path="/home" element={<HomePage/>}/>
               <Route path="/profile" element={<Profile/>}/>
+              <Route path="/delivery_tracker" element={<DeliveryTracker />}/>
+              <Route path="/help" element={<HelpPage />}/>
           </Routes>
       </ChakraProvider>
   );

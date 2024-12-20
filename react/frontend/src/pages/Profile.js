@@ -6,6 +6,7 @@ import ProfileInfo from "./profile_pages/ProfileInfo"; // Import the SideNavigat
 import OrderHistory from "./profile_pages/OrderHistory";
 import orders, {orderHistory} from "../utils/demos";
 import MyRestaurant from "./profile_pages/MyRestaurant";
+import Delivery from "./profile_pages/Delivery";
 
 const Profile = () => {
     // State to track the currently selected navigation item
@@ -26,7 +27,7 @@ const Profile = () => {
             case 'My Restaurants':
                 return <MyRestaurant />;
             case 'Delivery':
-                return <Text>Track or manage your delivery details here.</Text>;
+                return <Delivery />;
             default:
                 return <Text>Select an option to see more details.</Text>;
         }
