@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
     Box,
     Flex,
@@ -9,6 +9,7 @@ import {
     Button,
     VStack,
     useToast, HStack,
+    Grid,
 } from '@chakra-ui/react';
 
 const EditProfilePage = () => {
@@ -24,8 +25,8 @@ const EditProfilePage = () => {
     const toast = useToast();
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        const {name, value} = e.target;
+        setFormData({...formData, [name]: value});
     };
 
     const handleSubmit = (e) => {
@@ -42,121 +43,111 @@ const EditProfilePage = () => {
     };
 
     return (
-        <Flex  pt={16} bg="gray.800">
-            <Box
-                w="full"
+        <Flex pt={16} bg="gray.800" flexDirection="column">
+            {/* Form for personal information */}
+            <form onSubmit={handleSubmit}>
+                <Grid templateColumns={{base: "1fr", md: "repeat(2, 1fr)"}} gap={6}>
+                    {/* First Name */}
+                    <FormControl isRequired>
+                        <FormLabel>First Name</FormLabel>
+                        <Input
+                            type="text"
+                            name="firstName"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                            placeholder="Enter your first name"
+                        />
+                    </FormControl>
 
-                bg="gray.800"
+                    {/* Last Name */}
+                    <FormControl isRequired>
+                        <FormLabel>Last Name</FormLabel>
+                        <Input
+                            type="text"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                            placeholder="Enter your last name"
+                        />
+                    </FormControl>
 
-                boxShadow="md"
-                borderRadius="lg"
-            >
+                    {/* Email */}
+                    <FormControl isRequired>
+                        <FormLabel>Email Address</FormLabel>
+                        <Input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="Enter your email address"
+                        />
+                    </FormControl>
 
-                <form onSubmit={handleSubmit}>
-                    <Flex flexDirection="row" justifyContent="space-between">
-                    <VStack spacing={4}>
-                        {/* First Name */}
-                        <FormControl isRequired minW="400px">
-                            <FormLabel>First Name</FormLabel>
-                            <Input
-                                type="text"
-                                name="firstName"
-                                value={formData.firstName}
-                                onChange={handleChange}
-                                placeholder="Enter your first name"
-                            />
-                        </FormControl>
-
-                        {/* Last Name */}
-                        <FormControl isRequired>
-                            <FormLabel>Last Name</FormLabel>
-                            <Input
-                                type="text"
-                                name="lastName"
-                                value={formData.lastName}
-                                onChange={handleChange}
-                                placeholder="Enter your last name"
-                            />
-                        </FormControl>
-                    </VStack>
-                    <VStack spacing={4} px="150px">
-
-                        {/* Email */}
-                        <FormControl isRequired minW="400px">
-                            <FormLabel>Email Address</FormLabel>
-                            <Input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                placeholder="Enter your email address"
-                            />
-                        </FormControl>
-
-                        {/* Phone Number */}
-                        <FormControl>
-                            <FormLabel>Phone Number</FormLabel>
-                            <Input
-                                type="tel"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                placeholder="Enter your phone number"
-                            />
-                        </FormControl>
-                    </VStack>
-                    </Flex>
-                    <Box pt={16}></Box>
-                        <Button
-                            type="submit"
-                            size="lg"
-                            w="300px"
-                        >
-                            Save Changes
-                        </Button>
-                </form>
+                    {/* Phone Number */}
+                    <FormControl>
+                        <FormLabel>Phone Number</FormLabel>
+                        <Input
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="Enter your phone number"
+                        />
+                    </FormControl>
+                </Grid>
                 <Box pt={16}></Box>
 
-                    <form onSubmit={handleSubmit}>
-                        <Flex flexDirection="column" justifyContent="left">
-                        {/* Current Password */}
-                        <FormControl pb={4} maxW="400px">
-                            <FormLabel>Current Password</FormLabel>
-                            <Input
-                                type="password"
-                                name="currentPassword"
-                                value={formData.currentPassword}
-                                onChange={handleChange}
-                                placeholder="Enter your current password"
-                            />
-                        </FormControl>
+                <Button
+                    type="submit"
+                    w="300px"
+                    colorScheme="green"
+                >
+                    Save Changes
+                </Button>
 
-                        {/* New Password */}
-                        <FormControl maxW="400px">
-                            <FormLabel>New Password</FormLabel>
-                            <Input
-                                type="password"
-                                name="newPassword"
-                                value={formData.newPassword}
-                                onChange={handleChange}
-                                placeholder="Enter your new password"
-                            />
-                        </FormControl>
-                </Flex>
-                        <Box pt={16}></Box>
-                        {/* Submit Button */}
-                        <Button
-                            type="submit"
+            </form>
 
-                            size="lg"
-                            w="300px"
-                        >
-                            Change Password
-                        </Button>
+            <Box pt={16}></Box>
 
-                </form>
-            </Box>
+            {/* Form for password change */}
+            <form onSubmit={handleSubmit}>
+                <Grid templateColumns="1fr" gap={6}>
+                    {/* Current Password */}
+                    <FormControl w="625px">
+                        <FormLabel>Current Password</FormLabel>
+                        <Input
+                            type="password"
+                            name="currentPassword"
+                            value={formData.currentPassword}
+                            onChange={handleChange}
+                            placeholder="Enter your current password"
+                        />
+                    </FormControl>
+
+                    {/* New Password */}
+                    <FormControl w="625px">
+                        <FormLabel>New Password</FormLabel>
+                        <Input
+                            type="password"
+                            name="newPassword"
+                            value={formData.newPassword}
+                            onChange={handleChange}
+                            placeholder="Enter your new password"
+                        />
+                    </FormControl>
+                </Grid>
+                <Box pt={16}></Box>
+
+                    <Button
+                        type="submit"
+                        w="300px"
+                        colorScheme="green"
+                    >
+                        Change Password
+                    </Button>
+            </form>
         </Flex>
+
     );
 };
 
