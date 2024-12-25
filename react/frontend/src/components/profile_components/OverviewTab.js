@@ -21,12 +21,18 @@ const OverviewTab = ({restaurant, onUpdate}) => {
     };
 
     const handleToggleDay = (day) => {
-        setFormData((prev) => ({
-            ...prev,
-            days: prev.days.includes(day)
-                ? prev.days.filter((d) => d !== day)
-                : [...prev.days, day],
-        }));
+        const daysArray = formData.days.split(",");
+        if (daysArray.includes(day)) {
+            setFormData({
+                ...formData,
+                days: daysArray.filter((d) => d !== day).join(","),
+            });
+        } else {
+            setFormData({
+                ...formData,
+                days: [...daysArray, day].join(","),
+            });
+        }
     };
 
     return (
@@ -54,8 +60,8 @@ const OverviewTab = ({restaurant, onUpdate}) => {
                 <FormControl>
                     <FormLabel>Contact Number</FormLabel>
                     <Input
-                        value={formData.contact}
-                        onChange={(e) => setFormData({...formData, contact: e.target.value})}
+                        value={formData.phone_number}
+                        onChange={(e) => setFormData({...formData, phone_number: e.target.value})}
                     />
                 </FormControl>
 
@@ -63,8 +69,8 @@ const OverviewTab = ({restaurant, onUpdate}) => {
                 <FormControl>
                     <FormLabel>Operating Hours</FormLabel>
                     <Input
-                        value={formData.operatingHours}
-                        onChange={(e) => setFormData({...formData, operatingHours: e.target.value})}
+                        value={formData.operating_hours}
+                        onChange={(e) => setFormData({...formData, operating_hours: e.target.value})}
                     />
                 </FormControl>
 
@@ -95,9 +101,9 @@ const OverviewTab = ({restaurant, onUpdate}) => {
                 <Text fontWeight="bold" fontSize="lg">
                     Restaurant Statistics
                 </Text>
-                <Text>Total Sales: $1,350</Text>
-                <Text>Total Orders: 40</Text>
-                <Text>Average Rating: 4.2</Text>
+                <Text>Total Sales: ${formData.total_sales}</Text>
+                <Text>Total Orders: {formData.total_orders}</Text>
+                <Text>Average Rating: {formData.rating}</Text>
             </Box>
         </VStack>
     );

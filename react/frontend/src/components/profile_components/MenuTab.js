@@ -1,43 +1,90 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
-    Box,
-    Button,
     VStack,
-    HStack,
+    Grid,
     FormControl,
     FormLabel,
     Input,
+    InputGroup,
+    InputLeftElement,
+    InputRightElement,
+    Button,
     Table,
     Thead,
-    Tbody,
     Tr,
     Th,
-    Td, Grid, InputAddon, InputGroup, InputLeftElement, InputRightElement,
+    Tbody,
+    Td,
+    useToast,
 } from "@chakra-ui/react";
+import { addMenuItem, deleteMenuItem, updateMenuItem } from "../../services/menuItem";
 
-const MenuTab = () => {
+const MenuTab = ({ restaurantId }) => {
     const [menuItems, setMenuItems] = useState([]);
     const [newItem, setNewItem] = useState({
         name: "",
         ingredients: "",
         price: "",
         weight: "",
-        prepTime: "",
+        prep_time: "",
+        restaurant: restaurantId,
     });
+    const toast = useToast();
 
-    const handleAddItem = () => {
-        setMenuItems([...menuItems, {...newItem, id: Date.now()}]);
-        setNewItem({
-            name: "",
-            ingredients: "",
-            price: "",
-            weight: "",
-            prepTime: "",
-        });
+    const fetchMenuItems = async () => {
+        // Fetch menu items logic (optional)
     };
 
-    const handleDeleteItem = (id) => {
-        setMenuItems(menuItems.filter((item) => item.id !== id));
+    const handleAddItem = async () => {
+        try {
+            const createdItem = await addMenuItem(newItem);
+            setMenuItems((prev) => [...prev, createdItem]);
+            setNewItem({
+                name: "",
+                ingredients: "",
+                price: "",
+                weight: "",
+                prep_time: "",
+                restaurant: restaurantId,
+            });
+            toast({
+                title: "Success",
+                description: "Menu item added successfully!",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+        } catch (error) {
+            toast({
+                title: "Error",
+                description: error.message || "Failed to add menu item.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+    };
+
+    const handleDeleteItem = async (id) => {
+        try {
+            await deleteMenuItem(id);
+            setMenuItems((prev) => prev.filter((item) => item.id !== id));
+            toast({
+                title: "Success",
+                description: "Menu item deleted successfully!",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+        } catch (error) {
+            toast({
+                title: "Error",
+                description: error.message || "Failed to delete menu item.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
     };
 
     return (
@@ -48,7 +95,7 @@ const MenuTab = () => {
                     <Input
                         value={newItem.name}
                         onChange={(e) =>
-                            setNewItem((prev) => ({...prev, name: e.target.value}))
+                            setNewItem((prev) => ({ ...prev, name: e.target.value }))
                         }
                     />
                 </FormControl>
@@ -57,7 +104,7 @@ const MenuTab = () => {
                     <Input
                         value={newItem.ingredients}
                         onChange={(e) =>
-                            setNewItem((prev) => ({...prev, ingredients: e.target.value}))
+                            setNewItem((prev) => ({ ...prev, ingredients: e.target.value }))
                         }
                     />
                 </FormControl>
@@ -67,7 +114,7 @@ const MenuTab = () => {
                         <Input
                             value={newItem.price}
                             onChange={(e) =>
-                                setNewItem((prev) => ({...prev, price: e.target.value}))
+                                setNewItem((prev) => ({ ...prev, price: e.target.value }))
                             }
                         />
                         <InputLeftElement>$</InputLeftElement>
@@ -79,7 +126,7 @@ const MenuTab = () => {
                         <Input
                             value={newItem.weight}
                             onChange={(e) =>
-                                setNewItem((prev) => ({...prev, weight: e.target.value}))
+                                setNewItem((prev) => ({ ...prev, weight: e.target.value }))
                             }
                         />
                         <InputRightElement>g</InputRightElement>
@@ -91,7 +138,7 @@ const MenuTab = () => {
                         <Input
                             value={newItem.prepTime}
                             onChange={(e) =>
-                                setNewItem((prev) => ({...prev, prepTime: e.target.value}))
+                                setNewItem((prev) => ({ ...prev, prep_time: e.target.value }))
                             }
                         />
                         <InputRightElement>min</InputRightElement>
@@ -117,16 +164,15 @@ const MenuTab = () => {
                     {menuItems.map((item) => (
                         <Tr key={item.id}>
                             <Td>{item.name}</Td>
-                            <Td overflowX="auto">{item.ingredients}</Td>
+                            <Td>{item.ingredients}</Td>
                             <Td>${item.price}</Td>
                             <Td>{item.weight} g</Td>
-                            <Td>{item.prepTime} min</Td>
+                            <Td>{item.prep_time} min</Td>
                             <Td>
                                 <Button
                                     colorScheme="red"
                                     size="sm"
                                     onClick={() => handleDeleteItem(item.id)}
-                                    textColor="white"
                                 >
                                     X
                                 </Button>

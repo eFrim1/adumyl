@@ -18,7 +18,7 @@ const RestaurantTabs = ({ restaurant, onUpdate }) => {
                     <OverviewTab restaurant={restaurant} onUpdate={onUpdate} />
                 </TabPanel>
                 <TabPanel>
-                    <MenuTab />
+                    <MenuTab restaurantId={restaurant.id} />
                 </TabPanel>
                 <TabPanel>
                     <OrdersTab />

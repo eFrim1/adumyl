@@ -5,35 +5,43 @@ import {
     FormControl,
     FormLabel,
     Input,
-    HStack,
     Button,
     Box,
     Image,
 } from "@chakra-ui/react";
+import SimpleFileUpload  from 'react-simple-file-upload'
 
-const RegisterForm = ({onRegister}) => {
+const RegisterForm = ({ onRegister }) => {
     const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
     const [formData, setFormData] = useState({
         name: "Ceva Bun",
         address: "Strada Avram Iancu nr 25",
-        contact: "0744556677",
-        operatingHours: "8-16",
-        days: ["Mon", "Tue", "Wed"],
-        image: null,
+        phone_number: "0744556677",
+        operating_hours: "8-16",
+        days: "Mon,Tue,Wed",
+        image_url: "",
     });
 
     const handleToggleDay = (day) => {
-        setFormData((prev) => ({
-            ...prev,
-            days: prev.days.includes(day)
-                ? prev.days.filter((d) => d !== day)
-                : [...prev.days, day],
-        }));
+        const daysArray = formData.days.split(","); // Split string into array
+        if (daysArray.includes(day)) {
+            // Remove the day if already selected
+            setFormData({
+                ...formData,
+                days: daysArray.filter((d) => d !== day).join(","),
+            });
+        } else {
+            // Add the day if not already selected
+            setFormData({
+                ...formData,
+                days: [...daysArray, day].join(","),
+            });
+        }
     };
 
-    const handleFileUpload = (event) => {
-        setFormData((prev) => ({...prev, image: event.target.files[0]}));
+    const handleFileUpload = (url) => {
+        setFormData((prev) => ({ ...prev, image_url: url }));
     };
 
     const handleSubmit = () => {
@@ -48,7 +56,7 @@ const RegisterForm = ({onRegister}) => {
                     <FormLabel>Restaurant Name</FormLabel>
                     <Input
                         value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     />
                 </FormControl>
 
@@ -57,7 +65,9 @@ const RegisterForm = ({onRegister}) => {
                     <FormLabel>Address</FormLabel>
                     <Input
                         value={formData.address}
-                        onChange={(e) => setFormData({...formData, address: e.target.value})}
+                        onChange={(e) =>
+                            setFormData({ ...formData, address: e.target.value })
+                        }
                     />
                 </FormControl>
 
@@ -65,8 +75,10 @@ const RegisterForm = ({onRegister}) => {
                 <FormControl w="400px">
                     <FormLabel>Contact Number</FormLabel>
                     <Input
-                        value={formData.contact}
-                        onChange={(e) => setFormData({...formData, contact: e.target.value})}
+                        value={formData.phone_number}
+                        onChange={(e) =>
+                            setFormData({ ...formData, phone_number: e.target.value })
+                        }
                     />
                 </FormControl>
 
@@ -74,10 +86,14 @@ const RegisterForm = ({onRegister}) => {
                 <FormControl w="400px">
                     <FormLabel>Operating Hours</FormLabel>
                     <Input
-                        value={formData.operatingHours}
-                        onChange={(e) => setFormData({...formData, operatingHours: e.target.value})}
+                        value={formData.operating_hours}
+                        onChange={(e) =>
+                            setFormData({ ...formData, operating_hours: e.target.value })
+                        }
                     />
                 </FormControl>
+
+                {/* Operating Days */}
                 <FormControl w="400px">
                     <FormLabel>Operating Days</FormLabel>
                     <Flex flexDirection="row" justifyContent="space-between">
@@ -85,37 +101,42 @@ const RegisterForm = ({onRegister}) => {
                             <Button
                                 key={day}
                                 onClick={() => handleToggleDay(day)}
-                                colorScheme={formData.days.includes(day) ? "green" : "gray"}
-                                variant={formData.days.includes(day) ? "solid" : "shadow"}
-                                textColor={day === "Sun" ? "red.400" : "white"}
+                                colorScheme={
+                                    formData.days.includes(day) ? "green" : "gray"
+                                } // Highlight selected days
+                                variant={formData.days.includes(day) ? "solid" : "ghost"}
                             >
                                 {day.charAt(0).toUpperCase()}
                             </Button>
                         ))}
                     </Flex>
                 </FormControl>
-                <FormControl w="400px" mr="200px">
+
+                {/* Upload Image */}
+                <FormControl w="400px">
                     <FormLabel>Upload Image</FormLabel>
-                    <Input type="file" accept="image/*" onChange={handleFileUpload} variant="unstyled"/>
+                    <SimpleFileUpload
+                        apiKey="4618361b73da62e072a28b73ea22db4a"
+                        onSuccess={handleFileUpload}
+                    />
                 </FormControl>
-                <Button colorScheme="green" onClick={handleSubmit} w="400px" mt={8}>
+
+                <Button
+                    colorScheme="green"
+                    onClick={handleSubmit}
+                    w="400px"
+                    mt={8}
+                >
                     Register
                 </Button>
-                {formData.image && (
+
+                {formData.image_url && (
                     <Box mt={2}>
-                        <Image src={URL.createObjectURL(formData.image)} alt="Preview"/>
+                        <Image src={formData.image_url} alt="Preview" />
                     </Box>
                 )}
             </Grid>
-            <Flex mt={8} flexDirection="row" justifyContent="space-between">
-
-                {/* Upload Image */}
-
-
-            </Flex>
-
         </Flex>
     );
 };
-
 export default RegisterForm;

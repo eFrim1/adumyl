@@ -1,8 +1,6 @@
-import {Button, Flex, Image, Spacer, Stack, Text, Grid, IconButton, HStack, VStack} from "@chakra-ui/react";
+import {Button, Flex, Image, Spacer, Stack, Text, Grid, VStack} from "@chakra-ui/react";
 import React, {useState} from "react";
 import {RepeatIcon} from "@chakra-ui/icons";
-import {restaurants} from "../../utils/demos";
-import {FaAngleLeft, FaAngleRight} from "react-icons/fa6";
 import Pagination from "../../components/Pagination";
 
 const OrderHistory = ({orders}) => {

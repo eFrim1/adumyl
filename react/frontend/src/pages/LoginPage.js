@@ -11,7 +11,7 @@ import {
   Stack,
   useToast,
 } from '@chakra-ui/react';
-import { authenticateUser } from '../api/authApi';
+import {loginUser, registerUser} from '../services/auth';
 import { Navigate } from 'react-router-dom';
 
 const Login = () => {
@@ -29,8 +29,8 @@ const Login = () => {
   const toggleLogin = (status) => {
     setViewLogin(status);
     setFormData({
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -77,7 +77,11 @@ const Login = () => {
         : { first_name: firstName, last_name: lastName, email, password, password_confirm: confirmPassword }; // Sign-up payload
 
     try {
-      await authenticateUser(payload, viewLogin);
+      if(viewLogin){
+        await loginUser(payload);
+      }else {
+        await registerUser(payload);
+      }
       toast({
         title: 'Success',
         description: viewLogin ? 'Login successful!' : 'Sign-up successful!',
@@ -100,10 +104,10 @@ const Login = () => {
 
   const debugLogin = async () => {
     const payload = {
-      email: 'test25@gmail.com',
-      password: 'test',
+      email: 'test56@gmail.com',
+      password: 'test2',
     };
-    await authenticateUser(payload, true);
+    await loginUser(payload);
     setSuccess(true);
   };
 

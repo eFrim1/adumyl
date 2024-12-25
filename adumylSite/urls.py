@@ -18,11 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from adumyl import views
-from adumyl.views import LoginView, SignUpView
-
+from adumyl.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/login/', LoginView.as_view(), name='login'),
     path('auth/signup/', SignUpView.as_view(), name='signup'),
+    path('user/', UserView.as_view(), name='update-profile'),
+    path('change_password/', UpdatePasswordView.as_view(), name='change-password'),
+    path('order_history/', OrderHistoryView.as_view(), name='order-history'),
+    path('restaurant/', RestaurantView.as_view(), name='restaurant-create'),
+    path('menu_item/', MenuItemView.as_view(), name='add-menu-item'),
+
+    path('menu_item/<int:pk>/', MenuItemView.as_view(), name='manage-menu-item'),
+
 ]

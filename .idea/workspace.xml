@@ -5,21 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06a7a047-da12-4774-bc3f-6abae277307e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/DeliveryManagement.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/RegisterDelivery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react/frontend/src/pages/DeliveryTracker.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react/frontend/src/pages/HelpPage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/Delivery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/services/auth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/services/backendAPI.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/services/menuItem.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/services/orders.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/services/restaurant.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/services/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adumyl/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumyl/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adumyl/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumyl/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adumyl/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumyl/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adumylSite/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumylSite/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/components/NavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/api/authApi.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/components/profile_components/DeliveryManagement.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/DeliveryManagement.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/components/profile_components/MenuTab.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/MenuTab.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/components/profile_components/OverviewTab.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/OverviewTab.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react/frontend/src/components/profile_components/RegisterRestaurantForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/RegisterRestaurantForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/HomePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/components/profile_components/RestaurantTabs.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/RestaurantTabs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/LoginPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/MyRestaurant.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/MyRestaurant.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/OrderHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/OrderHistory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/ProfileInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/ProfileInfo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/utils/csrf.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +128,9 @@
       <workItem from="1732775332212" duration="243000" />
       <workItem from="1732828164787" duration="2231000" />
       <workItem from="1733984219981" duration="1237000" />
-      <workItem from="1734619864088" duration="2772000" />
+      <workItem from="1734619864088" duration="19271000" />
+      <workItem from="1734905812120" duration="1657000" />
+      <workItem from="1734966101604" duration="5822000" />
     </task>
     <servers />
   </component>
