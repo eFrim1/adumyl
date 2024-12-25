@@ -3,14 +3,17 @@ from rest_framework import serializers
 from .models import *
 from django.conf import settings
 
+
 class UserSerializer(serializers.ModelSerializer):
     # If you want to confirm passwords on registration, add a write-only field
     password = serializers.CharField(write_only=True, required=True)
     password_confirm = serializers.CharField(write_only=True, required=True)
+    email = serializers.CharField(required=True)
 
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'email', 'phone_number', 'is_owner', 'is_courier', 'address1', 'address2', 'address3', 'password', 'password_confirm']
+        fields = ['id', 'first_name', 'last_name', 'email', 'phone_number', 'is_owner', 'is_courier', 'address1',
+                  'address2', 'address3', 'password', 'password_confirm']
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate(self, data):
@@ -32,20 +35,67 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "address1",
+            "address2",
+            "address3",
+        ]
+
+    def validate(self, data):
+        if self.partial:
+            # Skip checking required fields for partial updates
+            return data
+
+        # Enforce email validation only for full updates
+        if "email" not in data or not data["email"]:
+            raise serializers.ValidationError({"email": "This field may not be blank."})
+        return data
+
+
+class PasswordUpdateSerializer(serializers.Serializer):
+    model = User
+
+    password = serializers.CharField(write_only=True, required=True)
+    password_confirm = serializers.CharField(write_only=True, required=True)
+
+    def validate(self, data):
+        if data['password'] != data['password_confirm']:
+            raise serializers.ValidationError("Passwords do not match.")
+        return data
+
+
 # Restaurant Serializer
 class RestaurantSerializer(serializers.ModelSerializer):
-    average_rating = serializers.ReadOnlyField()  # Read-only field to display average rating
-    user = serializers.PrimaryKeyRelatedField(queryset=get_user_model().objects.all())
+    average_rating = serializers.ReadOnlyField()
+    user = serializers.PrimaryKeyRelatedField(read_only=True)  # Mark user as read-only
 
     class Meta:
         model = Restaurant
-        fields = ['id', 'user', 'name', 'address', 'rating', 'rating_count', 'average_rating', 'schedule', 'phone_number']
-        read_only_fields = ['rating', 'rating_count', 'average_rating']  # Make these fields read-only
+        fields = [
+            'id', 'user', 'name', 'address', 'phone_number', 'rating',
+            'rating_count', 'average_rating', 'operating_hours', 'days', 'total_sales', 'total_orders', 'image_url'
+        ]
+        read_only_fields = ['rating', 'rating_count', 'average_rating']
+
+    def create(self, validated_data):
+        # Automatically associate the restaurant with the currently authenticated user
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
 
 
 # Courier Serializer
 class CourierSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=get_user_model().objects.all())  # Primary key reference for the user
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all())  # Primary key reference for the user
 
     class Meta:
         model = Courier
@@ -54,11 +104,21 @@ class CourierSerializer(serializers.ModelSerializer):
 
 # MenuItem Serializer
 class MenuItemSerializer(serializers.ModelSerializer):
-    restaurant = serializers.PrimaryKeyRelatedField(queryset=Restaurant.objects.all())  # Reference to restaurant
+    restaurant = serializers.PrimaryKeyRelatedField(queryset=Restaurant.objects.all(), required=False)
 
     class Meta:
         model = MenuItem
-        fields = ['id', 'restaurant', 'name', 'price', 'ingredients', 'prep_time', 'weight']
+        fields = ['id', 'restaurant', 'name', 'price', 'ingredients', 'prep_time', 'weight', 'image_url']
+
+    def create(self, validated_data):
+        # Automatically associate the menu item with the user's restaurant
+        user = self.context['request'].user
+        restaurant = Restaurant.objects.filter(user=user).first()
+        if not restaurant:
+            raise serializers.ValidationError({"restaurant": "No restaurant found for the authenticated user."})
+        validated_data['restaurant'] = restaurant
+        return super().create(validated_data)
+
 
 
 # OrderItem Serializer
@@ -74,9 +134,12 @@ class OrderItemSerializer(serializers.ModelSerializer):
 # Order Serializer
 class OrderSerializer(serializers.ModelSerializer):
     restaurant = serializers.PrimaryKeyRelatedField(queryset=Restaurant.objects.all())  # Reference to restaurant
-    courier = serializers.PrimaryKeyRelatedField(queryset=Courier.objects.all(), allow_null=True)  # Optional courier reference
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    courier = serializers.PrimaryKeyRelatedField(queryset=Courier.objects.all(),
+                                                 allow_null=True)  # Optional courier reference
 
     class Meta:
         model = Order
-        fields = ['id', 'restaurant', 'courier', 'address', 'total_price', 'payment_method', 'status', 'created_at', 'updated_at']
+        fields = ['id', 'restaurant', 'user', 'courier', 'address', 'total_price', 'payment_method', 'status', 'created_at',
+                  'updated_at']
         read_only_fields = ['created_at', 'updated_at']

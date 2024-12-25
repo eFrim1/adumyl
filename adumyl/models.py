@@ -26,7 +26,7 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, blank=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     is_owner = models.BooleanField(default=False)
     is_courier = models.BooleanField(default=False)
@@ -50,8 +50,12 @@ class Restaurant(models.Model):
     address = models.CharField(max_length=255)
     rating = models.PositiveIntegerField(default=0)  # Cumulative rating total
     rating_count = models.PositiveIntegerField(default=0)  # Total number of ratings
-    schedule = models.TextField()  # JSON field for open/close times, optional
+    operating_hours = models.TextField(blank=True, null=True)  # JSON field for open/close times, optional
+    days = models.TextField(blank=True, null=True)  # JSON field for open/close times, optional
     phone_number = models.CharField(max_length=15)
+    total_sales = models.IntegerField(default=0)
+    total_orders = models.IntegerField(default=0)
+    image_url = models.CharField(max_length=512, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -95,6 +99,7 @@ class MenuItem(models.Model):
     ingredients = models.TextField()  # Could be a JSON or a many-to-many relationship
     prep_time = models.PositiveIntegerField(help_text="Preparation time in minutes")
     weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, help_text="Weight in grams")
+    image_url = models.CharField(max_length=512, null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} - {self.restaurant.name}"
@@ -116,6 +121,7 @@ class Order(models.Model):
 
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name="orders")
     courier = models.ForeignKey(Courier, on_delete=models.SET_NULL, null=True, blank=True, related_name="orders")
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="orders")
     address = models.CharField(max_length=255)
     total_price = models.DecimalField(max_digits=8, decimal_places=2)
     payment_method = models.CharField(max_length=10, choices=PAYMENT_CHOICES)

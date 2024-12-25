@@ -2,9 +2,7 @@ import React, {useState} from "react";
 import {Box, VStack, Text, Grid, IconButton} from "@chakra-ui/react";
 import {AdvancedMarker, APIProvider, Map, Pin} from '@vis.gl/react-google-maps';
 import { Restaurant03Icon} from "hugeicons-react";
-import {IconHome} from "@tabler/icons-react";
-
-import {CheckIcon, CloseIcon} from "@chakra-ui/icons";
+import {IconCheck, IconHome, IconX} from "@tabler/icons-react";
 
 
 export default function DeliveryManagement() {
@@ -29,7 +27,7 @@ export default function DeliveryManagement() {
         setRequests((prev) => prev.filter((req) => req.id !== id));
     };
 
-    return (<Box p={6}>
+    return (<Box p={2}>
         <VStack spacing={6} align="stretch">
             {/* Current Delivery Request */}
             {currentRequest ? (<>
@@ -46,7 +44,7 @@ export default function DeliveryManagement() {
                                 Delivery Address:
                             </Text>
                             <IconButton
-                                icon={<CheckIcon/>}
+                                icon={<IconCheck/>}
                                 colorScheme="green"
                                 onClick={() => handleAccept(currentRequest.id)}
                                 aria-label="accept"
@@ -58,7 +56,7 @@ export default function DeliveryManagement() {
                             <Text mb={2}>{currentRequest.restaurantAddress}</Text>
                             <Text>{currentRequest.deliveryAddress}</Text>
                             <IconButton
-                                icon={<CloseIcon size="1"/>}
+                                icon={<IconX size="1"/>}
                                 aria-label="decline"
                                 colorScheme="red"
                                 onClick={() => handleDecline(currentRequest.id)}
@@ -73,7 +71,7 @@ export default function DeliveryManagement() {
                 </Box>
 
                 {/* Map Section */}
-                <Box borderRadius="md" h="50vh" bg="gray.100">
+                <Box borderRadius="md" h="46vh" bg="gray.100">
                     <APIProvider apiKey="AIzaSyDsiA5juM_mFN2zVywsvZV-wqFqa4HfCRE">
                         <Map
                             defaultZoom={12}
