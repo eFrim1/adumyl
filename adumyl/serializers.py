@@ -146,3 +146,10 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id', 'restaurant', 'user', 'courier', 'address', 'total_price', 'payment_method', 'status', 'created_at',
                   'updated_at']
         read_only_fields = ['created_at', 'updated_at']
+
+
+#Delivery Request Serializer
+class DeliveryRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DeliveryRequest
+        fields = '__all__'

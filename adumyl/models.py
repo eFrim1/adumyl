@@ -140,3 +140,21 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.menu_item.name} for Order {self.order.id}"
+
+
+class DeliveryRequest(models.Model):
+    order_id = models.AutoField(primary_key=True)
+    restaurant_coordinates = models.JSONField()  # For lat/lng storage
+    delivery_coordinates = models.JSONField()
+    restaurant_address = models.CharField(max_length=255)
+    delivery_address = models.CharField(max_length=255)
+    status = models.CharField(max_length=50, choices=[
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('preparing', 'Preparing'),
+        ('out_for_delivery', 'Out for Delivery'),
+        ('delivered', 'Delivered'),
+        ('canceled', 'Canceled'),
+    ], default='Pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
