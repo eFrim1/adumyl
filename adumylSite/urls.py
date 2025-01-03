@@ -31,5 +31,7 @@ urlpatterns = [
     path('menu_item/', MenuItemView.as_view(), name='add-menu-item'),
 
     path('menu_item/<int:pk>/', MenuItemView.as_view(), name='manage-menu-item'),
-
+    
+    path('deliveries/', DeliveryRequestList.as_view(), name='delivery-list'),
+    path('deliveries/<int:pk>/', DeliveryRequestDetail.as_view(), name='delivery-detail'),
 ]
