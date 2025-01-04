@@ -144,36 +144,11 @@ class MenuItemView(APIView):
             return Response({"detail": "Menu item not found."}, status=status.HTTP_404_NOT_FOUND)
         
 
-class DeliveryRequestList(APIView):
-    def get(self, request):
-        deliveries = DeliveryRequest.objects.all()
-        serializer = DeliveryRequestSerializer(deliveries, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = DeliveryRequestSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class DeliveryRequestDetail(APIView):
-    def get(self, request, pk):
+class DeliveryDetailView(APIView):
+    def get(self, request, order_id):
         try:
-            delivery = DeliveryRequest.objects.get(pk=pk)
-        except DeliveryRequest.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = DeliveryRequestSerializer(delivery)
-        return Response(serializer.data)
-
-    def patch(self, request, pk):
-        try:
-            delivery = DeliveryRequest.objects.get(pk=pk)
-        except DeliveryRequest.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = DeliveryRequestSerializer(delivery, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
+            delivery = Delivery.objects.get(order_id=order_id)
+            serializer = DeliverySerializer(delivery)
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Delivery.DoesNotExist:
+            return Response({"error": "Delivery not found"}, status=404)
