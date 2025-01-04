@@ -149,7 +149,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 #Delivery Request Serializer
-class DeliveryRequestSerializer(serializers.ModelSerializer):
+class DeliverySerializer(serializers.ModelSerializer):
     class Meta:
-        model = DeliveryRequest
+        model = Delivery
         fields = '__all__'
