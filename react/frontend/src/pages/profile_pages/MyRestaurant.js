@@ -81,7 +81,7 @@ const MyRestaurant = () => {
     if (loading) {
         // Display a loading spinner while data is being fetched
         return (
-            <Center h="100vh">
+            <Center h="50vh">
                 <Spinner size="xl" />
                 <Text m={4}>  Loading your restaurant...</Text>
             </Center>

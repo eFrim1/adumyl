@@ -87,7 +87,8 @@ class Restaurant(models.Model):
 class Courier(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="couriers")
     rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
-    current_location = models.CharField(max_length=255)  # Optionally, could be GPS coordinates
+    current_location = models.CharField(max_length=255, blank=True)  # Optionally, could be GPS coordinates
+    vehicle = models.CharField(max_length=255, default="car")
 
     def __str__(self):
         return f"Courier: {self.user.email}"

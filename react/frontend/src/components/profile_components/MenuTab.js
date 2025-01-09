@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     VStack,
     Grid,
@@ -17,7 +17,9 @@ import {
     Td,
     useToast,
 } from "@chakra-ui/react";
-import { addMenuItem, deleteMenuItem, updateMenuItem } from "../../services/menuItem";
+import {addMenuItem, deleteMenuItem, getMenuItems, updateMenuItem} from "../../services/menuItem";
+import SimpleFileUpload from "react-simple-file-upload";
+import {fetchDeliveryRequests} from "../../services/delivery";
 
 const MenuTab = ({ restaurantId }) => {
     const [menuItems, setMenuItems] = useState([]);
@@ -27,6 +29,7 @@ const MenuTab = ({ restaurantId }) => {
         price: "",
         weight: "",
         prep_time: "",
+        image_url: "",
         restaurant: restaurantId,
     });
     const toast = useToast();
@@ -34,6 +37,25 @@ const MenuTab = ({ restaurantId }) => {
     const fetchMenuItems = async () => {
         // Fetch menu items logic (optional)
     };
+
+    useEffect(() => {
+        const getItems = async () => {
+            try {
+                const data = await getMenuItems();
+                setMenuItems(data);
+            } catch (error) {
+                toast({
+                    title: "Error",
+                    description: error.message || "Failed to fetch delivery requests.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
+        };
+
+        getItems();
+    }, [toast]);
 
     const handleAddItem = async () => {
         try {
@@ -45,6 +67,7 @@ const MenuTab = ({ restaurantId }) => {
                 price: "",
                 weight: "",
                 prep_time: "",
+                image_url: "",
                 restaurant: restaurantId,
             });
             toast({
@@ -86,6 +109,10 @@ const MenuTab = ({ restaurantId }) => {
             });
         }
     };
+    const handleFileUpload = (url) => {
+        setNewItem((prev) => ({ ...prev, image_url: url }));
+    };
+
 
     return (
         <VStack spacing={4} align="stretch">
@@ -136,13 +163,22 @@ const MenuTab = ({ restaurantId }) => {
                     <FormLabel>Preparation time</FormLabel>
                     <InputGroup>
                         <Input
-                            value={newItem.prepTime}
+                            value={newItem.prep_time}
                             onChange={(e) =>
                                 setNewItem((prev) => ({ ...prev, prep_time: e.target.value }))
                             }
                         />
                         <InputRightElement>min</InputRightElement>
                     </InputGroup>
+                </FormControl>
+                <FormControl >
+                    <FormLabel>Upload Image</FormLabel>
+                    <SimpleFileUpload
+                        apiKey="4618361b73da62e072a28b73ea22db4a"
+                        onSuccess={handleFileUpload}
+                        width="200"
+                        height="40"
+                    />
                 </FormControl>
             </Grid>
             <Button colorScheme="green" onClick={handleAddItem} w="200px">
@@ -160,7 +196,7 @@ const MenuTab = ({ restaurantId }) => {
                         <Th></Th>
                     </Tr>
                 </Thead>
-                <Tbody>
+                <Tbody overflowY="auto">
                     {menuItems.map((item) => (
                         <Tr key={item.id}>
                             <Td>{item.name}</Td>

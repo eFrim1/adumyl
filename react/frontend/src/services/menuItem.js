@@ -1,5 +1,13 @@
 import { apiRequest } from "./backendAPI";
 
+export const getMenuItems = async () => {
+    const url = "/menu_item/";
+    return await apiRequest({
+        url: url,
+        method: "GET",
+    });
+}
+
 export const addMenuItem = async (menuItem) => {
     const url = "/menu_item/";
     return await apiRequest({
@@ -25,3 +33,4 @@ export const updateMenuItem = async (id, menuItem) => {
         payload: menuItem,
     });
 };
+

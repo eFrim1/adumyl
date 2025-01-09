@@ -29,7 +29,11 @@ urlpatterns = [
     path('order_history/', OrderHistoryView.as_view(), name='order-history'),
     path('restaurant/', RestaurantView.as_view(), name='restaurant-create'),
     path('menu_item/', MenuItemView.as_view(), name='add-menu-item'),
-
     path('menu_item/<int:pk>/', MenuItemView.as_view(), name='manage-menu-item'),
+    path('orders/', OrdersView.as_view(), name='orders-list'),  # Fetch all orders
+    path('orders/<int:pk>/', OrdersView.as_view(), name='order-update'),  # Update order status
+    path('courier/', CourierView.as_view(), name='courier-register'),
+    path('delivery-requests/', DeliveryRequestsView.as_view(), name='delivery-requests'),
+    path('delivery-requests/<int:pk>/', DeliveryRequestsView.as_view(), name='accept-delivery'),
 
 ]
