@@ -5,22 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06a7a047-da12-4774-bc3f-6abae277307e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/react/frontend/src/services/delivery.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adumyl/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumyl/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adumyl/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumyl/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adumyl/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumyl/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adumylSite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumylSite/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adumylSite/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/adumylSite/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/components/profile_components/DeliveryManagement.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/DeliveryManagement.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/components/profile_components/MenuTab.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/MenuTab.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/components/profile_components/OrdersTab.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/OrdersTab.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/components/profile_components/RegisterDelivery.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/components/profile_components/RegisterDelivery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/Delivery.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/Delivery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/MyRestaurant.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/MyRestaurant.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/ProfileInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/profile_pages/ProfileInfo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/services/menuItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/services/menuItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/frontend/src/services/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/services/orders.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,27 +33,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Django Server.adumylSite.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;react&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/PyCharm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Django Server.adumylSite.executor": "Run",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "frontend",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/Applications/PyCharm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="adumylSite" type="Python.DjangoServer" factoryName="Django server">
       <module name="adumylSite" />
