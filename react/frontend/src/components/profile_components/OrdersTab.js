@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     Tabs,
     TabList,
@@ -12,37 +12,58 @@ import {
     Th,
     Td,
     Box,
-    Button, Flex,
+    Button, Flex, useToast,
 } from "@chakra-ui/react";
+import {fetchOrders, updateOrderStatus} from "../../services/orders";
 
 const OrdersTab = () => {
-    const [orders, setOrders] = useState([
-        {
-            id: 1,
-            status: "processing",
-            items: [
-                { name: "Burger", quantity: 2, prepTime: 60 },
-                { name: "Fries", quantity: 1, prepTime: 20 },
-                { name: "Pizza", quantity: 1, prepTime: 50 },
-                { name: "Soda", quantity: 2, prepTime: 50 },
-            ],
-        },
-        {
-            id: 2,
-            status: "delivery",
-            items: [
-                { name: "Pizza", quantity: 1, prepTime: 50 },
-                { name: "Soda", quantity: 2, prepTime: 50 },
-            ],
-        },
-    ]);
+    const [orders, setOrders] = useState([]);
+    const toast = useToast();
 
-    const moveToDelivery = (id) => {
-        setOrders((prevOrders) =>
-            prevOrders.map((order) =>
-                order.id === id ? { ...order, status: "delivery" } : order
-            )
-        );
+    useEffect(() => {
+        // Fetch orders on component mount
+        const getOrders = async () => {
+            try {
+                const data = await fetchOrders();
+                setOrders(data);
+            } catch (error) {
+                toast({
+                    title: "Error",
+                    description: error.message || "Failed to fetch orders.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
+        };
+
+        getOrders();
+    }, [toast]);
+
+    const moveToDelivery = async (id) => {
+        try {
+            const updatedOrder = await updateOrderStatus(id, "delivery");
+            setOrders((prevOrders) =>
+                prevOrders.map((order) =>
+                    order.id === id ? updatedOrder : order
+                )
+            );
+            toast({
+                title: "Success",
+                description: "Order moved to delivery.",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+        } catch (error) {
+            toast({
+                title: "Error",
+                description: error.message || "Failed to update order.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
     };
 
     return (
@@ -66,9 +87,9 @@ const OrdersTab = () => {
                         </Thead>
                         <Tbody>
                             {orders
-                                .filter((order) => order.status === "processing")
+                                .filter((order) => ["pending", "accepted", "preparing"].includes(order.status))
                                 .map((order) => (
-                                    <Tr key={order.id} >
+                                    <Tr key={order.id}>
                                         <Td>{order.id}</Td>
                                         <Td>
                                             {order.items.map((item, index) => (
@@ -78,14 +99,18 @@ const OrdersTab = () => {
                                             ))}
                                         </Td>
                                         <Td>
-                                            {order.items.reduce((accumulator, currentValue)=>accumulator + currentValue.prepTime * currentValue.quantity, 0)} min
+                                            {order.items.reduce(
+                                                (acc, item) =>
+                                                    acc + item.prepTime * item.quantity,
+                                                0
+                                            )}{" "}
+                                            min
                                         </Td>
                                         <Td>
                                             <Button
                                                 colorScheme="green"
                                                 size="sm"
                                                 onClick={() => moveToDelivery(order.id)}
-
                                             >
                                                 To delivery
                                             </Button>
@@ -107,7 +132,7 @@ const OrdersTab = () => {
                         </Thead>
                         <Tbody>
                             {orders
-                                .filter((order) => order.status === "delivery")
+                                .filter((order) => order.status === "out_for_delivery")
                                 .map((order) => (
                                     <Tr key={order.id}>
                                         <Td>{order.id}</Td>

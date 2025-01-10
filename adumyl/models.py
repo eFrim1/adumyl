@@ -87,7 +87,8 @@ class Restaurant(models.Model):
 class Courier(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="couriers")
     rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
-    current_location = models.CharField(max_length=255)  # Optionally, could be GPS coordinates
+    current_location = models.CharField(max_length=255, blank=True)  # Optionally, could be GPS coordinates
+    vehicle = models.CharField(max_length=255, default="car")
 
     def __str__(self):
         return f"Courier: {self.user.email}"
@@ -139,3 +140,17 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.menu_item.name} for Order {self.order.id}"
+
+class Delivery(models.Model):
+    order_id = models.CharField(max_length=100, unique=True)
+    restaurant_coordinates = models.JSONField()  # Store coordinates as JSON {lat: ..., lng: ...}
+    delivery_coordinates = models.JSONField()    # Store coordinates as JSON {lat: ..., lng: ...}
+    restaurant_address = models.TextField()
+    delivery_address = models.TextField()
+    delivery_agent = models.ForeignKey(Courier, on_delete=models.SET_NULL, null=True, blank=True)
+    stages = models.JSONField(default=list)  # Store the list of stages like ["Order Placed", "Delivered"]
+    current_stage = models.PositiveIntegerField(default=0)
+    estimated_time = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return f"Delivery #{self.order_id}"

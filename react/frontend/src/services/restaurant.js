@@ -25,3 +25,11 @@ export const updateRestaurant = async (payload) => {
         payload: payload
     });
 }
+
+export const getRestaurantsAll = async () => {
+    const url = "/restaurants_all/";
+    return await apiRequest({
+        url: url,
+        method: "GET",
+    });
+};

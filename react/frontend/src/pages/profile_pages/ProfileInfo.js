@@ -127,7 +127,7 @@ const EditProfilePage = () => {
 
     if (loading) {
         return (
-            <Center h="100vh">
+            <Center h="50vh">
                 <Spinner size="xl" />
                 <Text m={4}>  Loading Profile Info...</Text>
             </Center>

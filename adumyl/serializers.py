@@ -94,12 +94,15 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
 # Courier Serializer
 class CourierSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(
-        queryset=get_user_model().objects.all())  # Primary key reference for the user
+    user = serializers.PrimaryKeyRelatedField(read_only=True)  # Automatically assigned
 
     class Meta:
         model = Courier
-        fields = ['id', 'user', 'rating', 'current_location']
+        fields = ['id', 'user', 'rating', 'current_location', 'vehicle']
+
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
 
 
 # MenuItem Serializer
@@ -143,3 +146,10 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id', 'restaurant', 'user', 'courier', 'address', 'total_price', 'payment_method', 'status', 'created_at',
                   'updated_at']
         read_only_fields = ['created_at', 'updated_at']
+
+
+#Delivery Request Serializer
+class DeliverySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Delivery
+        fields = '__all__'
