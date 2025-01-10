@@ -7,12 +7,13 @@ import ShoppingCart from "../components/ShoppingCart";
 import {getMenuItemsAll} from "../services/menuItem";
 import {useLocation} from "react-router-dom";
 import FoodCategorySelector from "../components/FoodCategories";
+import {useCart} from "./CartContext";
 
 
 const MenuPage = () => {
     const [pageItems, setPageItems] = useState([]);
     const [menuItems, setMenuItems] = useState([]);
-    const [cart, setCart] = useState([]);
+    const {cart, setCart} = useCart();
     const [loading, setLoading] = useState(true);
     const toast = useToast();
     const params = useLocation();

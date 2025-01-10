@@ -43,6 +43,7 @@ export default function Navbar() {
                         colorScheme='green'
                         aria-label="Cart"
                         icon={<IconShoppingCart/>}>
+                        onClick={() => handleNavigation("/place_order")}
                     </IconButton>
                     <IconButton
                         variant='ghost'
