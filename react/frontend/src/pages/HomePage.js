@@ -1,19 +1,61 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import RestaurantCard from "../components/RestaurantCard";
 import Navbar from "../components/NavBar";
 import LastOrders from "../components/LastOrders";
-import {Box, Flex, Grid, Text, VStack} from "@chakra-ui/react";
+import {Box, Center, Flex, Grid, Spinner, Text, useToast, VStack} from "@chakra-ui/react";
 import FoodCategorySelector from "../components/FoodCategories";
-import {orders, restaurants} from "../utils/demos"
+import {orders} from "../utils/demos"
 import Pagination from "../components/Pagination";
+import {getRestaurantsAll} from "../services/restaurant";
 
 
 const RestaurantsPage = () => {
     const [pageItems, setPageItems] = useState([]);
+    const [restaurants, setRestaurants] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const toast = useToast();
+
+    const onRestaurantClick = async (data) => {
+
+    }
 
     const handlePageItemsChange = (currentItems) => {
         setPageItems(currentItems);
     };
+
+    useEffect(() => {
+        // Fetch restaurant details on component mount
+        const fetchRestaurant = async () => {
+            try {
+                const data = await getRestaurantsAll();
+                setRestaurants(data);
+            } catch (error) {
+                if (error.response?.status !== 404) {
+                    toast({
+                        title: "Error",
+                        description: error.message || "An error occurred. Please try again.",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                    });
+                }
+            } finally {
+                setLoading(false); // Stop loading regardless of success or failure
+            }
+        };
+
+        fetchRestaurant();
+    }, [toast]);
+
+    if(loading){
+        return (
+            <Center h="50vh">
+                <Spinner size="xl" />
+                <Text m={4}>  Loading Restaurants...</Text>
+            </Center>
+        );
+    }
+
     return (
 
         <Flex direction="column" m="50px">
@@ -45,8 +87,8 @@ const RestaurantsPage = () => {
                         h="520px"
                     >
                         {pageItems.map((restaurant) => (
-                            <RestaurantCard key={restaurant.id} name={restaurant.name} rating={restaurant.rating}
-                                            image={restaurant.image}/>
+                            <RestaurantCard id={restaurant.id} name={restaurant.name} rating={restaurant.rating}
+                                            image={restaurant.image_url} onClick={onRestaurantClick}/>
                         ))}
                     </Grid>
                     <Pagination

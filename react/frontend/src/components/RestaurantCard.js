@@ -1,7 +1,19 @@
 import React from 'react';
 import { Box, Flex, Image, Text, Badge, VStack, HStack, useColorModeValue } from '@chakra-ui/react';
+import {getRestaurant} from "../services/restaurant";
 
-const RestaurantCard = ({ name, rating, image }) => {
+const RestaurantCard = ({id ,name, rating, image, onClick }) => {
+
+    const fetchRestaurant = async () => {
+        try {
+            const data = await getRestaurant();
+            onClick(data); // Populate state with fetched data
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <Flex
             borderRadius="lg"
@@ -12,6 +24,7 @@ const RestaurantCard = ({ name, rating, image }) => {
             transition="transform 0.2s"
             _hover={{ transform: 'scale(1.05)'}}
             position="relative"
+            onClick={fetchRestaurant}
         >
             {/* Restaurant Image */}
             {/* Image Section */}

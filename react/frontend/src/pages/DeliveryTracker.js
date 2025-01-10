@@ -5,14 +5,11 @@ import {
     Progress,
     VStack,
     HStack,
-    Avatar,
     Divider,
     CircularProgress,
-    CircularProgressLabel
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import Navbar from "../components/NavBar";
 import {AdvancedMarker, APIProvider, Map, Pin} from '@vis.gl/react-google-maps';

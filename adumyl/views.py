@@ -7,7 +7,6 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-
 from .models import *
 from .serializers import *
 
@@ -79,6 +78,19 @@ class OrderHistoryView(APIView):
         user_orders = Order.objects.filter(user=request.user).order_by('-created_at')
         serializer = OrderSerializer(user_orders, many=True)
         return Response(serializer.data, status=200)
+
+
+class RestaurantsAllView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        restaurants = Restaurant.objects.all()
+        if restaurants:
+            serializer = RestaurantSerializer(restaurants, many=True)
+            # if serializer.errors:
+            #     return Response({"detail": "Request error"}, status=status.HTTP_404_NOT_FOUND)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"detail": "No restaurant found"}, status=status.HTTP_200_OK)
 
 
 class RestaurantView(APIView):
