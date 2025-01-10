@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile"
 import DeliveryTracker from "./pages/DeliveryTracker";
 import HelpPage from "./pages/HelpPage";
+import MenuPage from "./pages/MenuPage";
 
 const theme = extendTheme(
     {
@@ -39,6 +40,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage/>} />
               <Route path="/home" element={<HomePage/>}/>
+              <Route path="/restaurant/" element={<MenuPage />}/>
               <Route path="/profile" element={<Profile/>}/>
               <Route path="/delivery_tracker" element={<DeliveryTracker />}/>
               <Route path="/help" element={<HelpPage />}/>

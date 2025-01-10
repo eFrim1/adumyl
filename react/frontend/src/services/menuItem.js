@@ -1,5 +1,14 @@
 import { apiRequest } from "./backendAPI";
 
+export const getMenuItemsAll = async (payload) => {
+    const url = "/menu-items-all/";
+    return await apiRequest({
+        url: url,
+        method: "POST",
+        payload: payload,
+    });
+}
+
 export const getMenuItems = async () => {
     const url = "/menu_item/";
     return await apiRequest({

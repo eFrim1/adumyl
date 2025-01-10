@@ -1,3 +1,5 @@
+from idlelib.iomenu import errors
+
 from django.contrib.auth import authenticate, login
 from django.core.serializers import serialize
 from django.shortcuts import render
@@ -123,6 +125,18 @@ class RestaurantView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class MenuItemsAllView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        restaurant_data = request.data
+        if not restaurant_data:
+            return Response({"detail": "No restaurant specified"}, status=status.HTTP_404_NOT_FOUND)
+        restaurant = Restaurant.objects.filter(id=restaurant_data['id']).first()
+        items = MenuItem.objects.filter(restaurant= restaurant)
+        serializer = MenuItemSerializer(items, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 class MenuItemView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -140,7 +154,7 @@ class MenuItemView(APIView):
         serializer = MenuItemSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

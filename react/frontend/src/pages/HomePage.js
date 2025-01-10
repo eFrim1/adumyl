@@ -7,6 +7,7 @@ import FoodCategorySelector from "../components/FoodCategories";
 import {orders} from "../utils/demos"
 import Pagination from "../components/Pagination";
 import {getRestaurantsAll} from "../services/restaurant";
+import {useNavigate} from "react-router-dom";
 
 
 const RestaurantsPage = () => {
@@ -14,9 +15,14 @@ const RestaurantsPage = () => {
     const [restaurants, setRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
     const toast = useToast();
+    const navigate = useNavigate();
 
-    const onRestaurantClick = async (data) => {
-
+    const onRestaurantClick = async (selectedRestaurant) => {
+        navigate('/restaurant', {
+            state: {
+                restaurant: selectedRestaurant,
+            }
+        });
     }
 
     const handlePageItemsChange = (currentItems) => {
@@ -67,7 +73,7 @@ const RestaurantsPage = () => {
 
 
                 <VStack>
-                    <Box w="1300px" h="130px" bg="red.500" borderRadius="20px" justifyItems="center"
+                    <Box w="67.7vw" h="12vh" bg="red.500" borderRadius="20px" justifyItems="center"
                          alignContent="center">
                         <Text fontSize="3xl" fontWeight="bold">Enjoy our selection of 137 Restaurants</Text>
                     </Box>
@@ -84,11 +90,10 @@ const RestaurantsPage = () => {
                         justifyContent="space-between"
                         mx="5"
                         mt="40px"
-                        h="520px"
+                        h="28.889vw"
                     >
                         {pageItems.map((restaurant) => (
-                            <RestaurantCard id={restaurant.id} name={restaurant.name} rating={restaurant.rating}
-                                            image={restaurant.image_url} onClick={onRestaurantClick}/>
+                            <RestaurantCard restaurant={restaurant} onClick={onRestaurantClick}/>
                         ))}
                     </Grid>
                     <Pagination
