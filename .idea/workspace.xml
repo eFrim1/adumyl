@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="06a7a047-da12-4774-bc3f-6abae277307e" name="Changes" comment="" />
+    <list default="true" id="06a7a047-da12-4774-bc3f-6abae277307e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/components/OrderAddresForm.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/frontend/src/components/OrderPaymentForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react/frontend/src/pages/PlaceOrderPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/react/frontend/src/pages/PlaceOrderPage.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -110,7 +115,7 @@
       <workItem from="1734905812120" duration="1657000" />
       <workItem from="1734966101604" duration="16222000" />
       <workItem from="1736403053558" duration="1970000" />
-      <workItem from="1736503993282" duration="8958000" />
+      <workItem from="1736503993282" duration="9601000" />
     </task>
     <servers />
   </component>

@@ -1,30 +1,34 @@
 import {
     Box,
-    Button,
     Flex,
-    FormControl,
-    FormLabel,
-    HStack,
-    Input,
-    Radio,
-    RadioGroup,
-    Stack,
-    Step,
+    Step, StepDescription, StepIcon,
     StepIndicator,
     StepNumber,
-    Stepper,
+    Stepper, StepSeparator,
     StepStatus,
     StepTitle,
-    Text,
+    Text, useSteps,
     useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import {useState} from "react";
 import ShoppingCart from "../components/ShoppingCart";
 import {useCart} from "./CartContext";
 import Navbar from "../components/NavBar";
+import OrderAddressForm from "../components/OrderAddresForm";
+import OrderPaymentForm from "../components/OrderPaymentForm";
+
 
 const PlaceOrderPage = () => {
-    const [currentStep, setCurrentStep] = useState(0);
+    const steps = [
+        { title: 'Address', description: 'Delivery address' },
+        { title: 'Payment', description: 'Payment method' },
+        { title: 'Order', description: 'Placing order' },
+    ]
+    const { activeStep, setActiveStep} = useSteps({
+        index: 1,
+        count: steps.length,
+    })
+
     const [deliveryAddress, setDeliveryAddress] = useState({
         city: "",
         street: "",
@@ -42,7 +46,7 @@ const PlaceOrderPage = () => {
     const {cart} = useCart();
 
     const handleNext = () => {
-        if (currentStep === 0 && !deliveryAddress.city.trim()) {
+        if (activeStep === 0 && !deliveryAddress.city.trim()) {
             toast({
                 title: "Error",
                 description: "Please complete the delivery address.",
@@ -52,7 +56,7 @@ const PlaceOrderPage = () => {
             });
             return;
         }
-        setCurrentStep((prevStep) => prevStep + 1);
+        setActiveStep((prevStep) => prevStep + 1);
     };
 
     const handleOrder = () => {
@@ -84,139 +88,49 @@ const PlaceOrderPage = () => {
         });
     };
 
-    const onOrderSubmit = () =>{
+    const onOrderSubmit = () => {
 
     }
 
     return (
         <Flex direction="column" m="50px">
-        <Navbar />
-        <Flex direction="row" pt="50px">
-            {/* Stepper Section */}
-            <Box flex={1} p={4} bg="gray.900" borderRadius="md" boxShadow="lg" mr={8}>
-                <Stepper index={currentStep} colorScheme="green" size="lg" orientation="vertical">
-                    {/* Step 1: Delivery Address */}
-                    <Step>
-                        <StepIndicator>
-                            <StepNumber />
-                        </StepIndicator>
-                        <StepTitle>Delivery Address</StepTitle>
-                        <StepStatus>{currentStep > 0 ? "Completed" : "In Progress"}</StepStatus>
-                        {currentStep === 0 && (
-                            <Stack mt={4}>
-                                <FormControl isRequired>
-                                    <FormLabel color="white">City</FormLabel>
-                                    <Input
-                                        value={deliveryAddress.city}
-                                        onChange={(e) =>
-                                            setDeliveryAddress({ ...deliveryAddress, city: e.target.value })
-                                        }
+            <Navbar/>
+            <Flex direction="row" pt="50px">
+                <Box flex={1} p={4} bg="gray.900" borderRadius="md" boxShadow="lg" mr={8}>
+                    <Stepper size='lg' index={activeStep} mx={6} mt={6}>
+                        {steps.map((step, index) => (
+                            <Step key={index}>
+                                <StepIndicator>
+                                    <StepStatus
+                                        complete={<StepIcon />}
+                                        incomplete={<StepNumber />}
+                                        active={<StepNumber />}
                                     />
-                                </FormControl>
-                                <FormControl isRequired>
-                                    <FormLabel color="white">Street</FormLabel>
-                                    <Input
-                                        value={deliveryAddress.street}
-                                        onChange={(e) =>
-                                            setDeliveryAddress({ ...deliveryAddress, street: e.target.value })
-                                        }
-                                    />
-                                </FormControl>
-                                <HStack>
-                                    <FormControl isRequired>
-                                        <FormLabel color="white">Number</FormLabel>
-                                        <Input
-                                            value={deliveryAddress.number}
-                                            onChange={(e) =>
-                                                setDeliveryAddress({ ...deliveryAddress, number: e.target.value })
-                                            }
-                                        />
-                                    </FormControl>
-                                    <FormControl>
-                                        <FormLabel color="white">Floor</FormLabel>
-                                        <Input
-                                            value={deliveryAddress.floor}
-                                            onChange={(e) =>
-                                                setDeliveryAddress({ ...deliveryAddress, floor: e.target.value })
-                                            }
-                                        />
-                                    </FormControl>
-                                </HStack>
-                                <Button colorScheme="green" onClick={handleNext}>
-                                    Proceed to Payment
-                                </Button>
-                            </Stack>
-                        )}
-                    </Step>
+                                </StepIndicator>
 
-                    {/* Step 2: Payment Method */}
-                    <Step>
-                        <StepIndicator>
-                            <StepNumber />
-                        </StepIndicator>
-                        <StepTitle>Payment Method</StepTitle>
-                        <StepStatus>{currentStep > 1 ? "Completed" : "In Progress"}</StepStatus>
-                        {currentStep === 1 && (
-                            <Stack mt={4}>
-                                <RadioGroup value={paymentMethod} onChange={setPaymentMethod}>
-                                    <Stack direction="column">
-                                        <Radio value="Cash" colorScheme="green">
-                                            Cash
-                                        </Radio>
-                                        <Radio value="Card to courier" colorScheme="green">
-                                            Card to courier
-                                        </Radio>
-                                        <Radio value="Card online" colorScheme="green">
-                                            Card online
-                                        </Radio>
-                                    </Stack>
-                                </RadioGroup>
+                                <Box flexShrink='0'>
+                                    <StepTitle>{step.title}</StepTitle>
+                                    <StepDescription>{step.description}</StepDescription>
+                                </Box>
 
-                                {paymentMethod === "Card online" && (
-                                    <Stack mt={4}>
-                                        <FormControl isRequired>
-                                            <FormLabel color="white">Card Number</FormLabel>
-                                            <Input
-                                                value={cardDetails.cardNumber}
-                                                onChange={(e) =>
-                                                    setCardDetails({ ...cardDetails, cardNumber: e.target.value })
-                                                }
-                                            />
-                                        </FormControl>
-                                        <FormControl isRequired>
-                                            <FormLabel color="white">Expiry Date</FormLabel>
-                                            <Input
-                                                value={cardDetails.expiryDate}
-                                                onChange={(e) =>
-                                                    setCardDetails({ ...cardDetails, expiryDate: e.target.value })
-                                                }
-                                            />
-                                        </FormControl>
-                                        <FormControl isRequired>
-                                            <FormLabel color="white">CVV</FormLabel>
-                                            <Input
-                                                value={cardDetails.cvv}
-                                                onChange={(e) =>
-                                                    setCardDetails({ ...cardDetails, cvv: e.target.value })
-                                                }
-                                            />
-                                        </FormControl>
-                                    </Stack>
-                                )}
-                                <Button colorScheme="green" onClick={handleOrder}>
-                                    Place Order
-                                </Button>
-                            </Stack>
-                        )}
-                    </Step>
-                </Stepper>
-            </Box>
+                                <StepSeparator />
+                            </Step>
+                        ))}
+                    </Stepper>
+                    {activeStep===0 && <OrderAddressForm deliveryAddress={deliveryAddress} setDeliveryAddress={setDeliveryAddress} handleNext={handleNext} />}
+                    {activeStep===1 && <OrderPaymentForm paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} cardDetails={cardDetails} setCardDetails={setCardDetails} handleOrder={handleOrder} /> }
+                    {activeStep===2 &&
+                        <Flex flexDir="column">
+                            <Text>Tour order has been placed</Text>
+                            <Text>Thank you for your time</Text>
+                        </Flex>
+                    }
+                </Box>
 
-            {/* Shopping Cart Section */}
-            <Box w="350px">
-                <ShoppingCart cart={cart} />
-            </Box>
-        </Flex>
+                <Box w="350px">
+                    <ShoppingCart cart={cart}/>
+                </Box>
+            </Flex>
         </Flex>
     );
 };
