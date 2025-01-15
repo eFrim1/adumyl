@@ -7,18 +7,26 @@ import ShoppingCart from "../components/ShoppingCart";
 import {getMenuItemsAll} from "../services/menuItem";
 import {useLocation} from "react-router-dom";
 import FoodCategorySelector from "../components/FoodCategories";
+import {useCart, useRestaurant} from "./OrderContext";
 
 
 const MenuPage = () => {
     const [pageItems, setPageItems] = useState([]);
     const [menuItems, setMenuItems] = useState([]);
-    const [cart, setCart] = useState([]);
+    const {cart, setCart} = useCart([]);
     const [loading, setLoading] = useState(true);
     const toast = useToast();
     const params = useLocation();
-    const restaurant = params.state.restaurant;
+    const selectedRestaurant = params.state.restaurant;
+    const {restaurant, setRestaurant} = useRestaurant();
 
     const handleAddToCart = (item) => {
+        if(!restaurant){
+            setRestaurant(selectedRestaurant);
+        }else if(restaurant !== selectedRestaurant){
+            setCart([]);
+            setRestaurant(selectedRestaurant);
+        }
         setCart((prevCart) => {
             const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
             if (existingItem) {
@@ -59,7 +67,7 @@ const MenuPage = () => {
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const data = await getMenuItemsAll(restaurant);
+                const data = await getMenuItemsAll(selectedRestaurant);
                 if (data) {
                     setMenuItems(data);
                 }
@@ -77,7 +85,7 @@ const MenuPage = () => {
         };
 
         fetchMenuItems();
-    }, [toast, restaurant]);
+    }, [toast, selectedRestaurant]);
 
     if (loading) {
         return (

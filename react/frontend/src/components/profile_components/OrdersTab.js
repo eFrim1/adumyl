@@ -20,34 +20,31 @@ const OrdersTab = () => {
     const [orders, setOrders] = useState([]);
     const toast = useToast();
 
+    const getOrders = async () => {
+        try {
+            const data = await fetchOrders();
+            setOrders(data);
+        } catch (error) {
+            toast({
+                title: "Error",
+                description: error.message || "Failed to fetch orders.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+    };
+
     useEffect(() => {
         // Fetch orders on component mount
-        const getOrders = async () => {
-            try {
-                const data = await fetchOrders();
-                setOrders(data);
-            } catch (error) {
-                toast({
-                    title: "Error",
-                    description: error.message || "Failed to fetch orders.",
-                    status: "error",
-                    duration: 3000,
-                    isClosable: true,
-                });
-            }
-        };
 
         getOrders();
     }, [toast]);
 
     const moveToDelivery = async (id) => {
         try {
-            const updatedOrder = await updateOrderStatus(id, "delivery");
-            setOrders((prevOrders) =>
-                prevOrders.map((order) =>
-                    order.id === id ? updatedOrder : order
-                )
-            );
+            const updatedOrder = await updateOrderStatus(id, "out_for_delivery");
+            await getOrders();
             toast({
                 title: "Success",
                 description: "Order moved to delivery.",
@@ -86,22 +83,22 @@ const OrdersTab = () => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {orders
-                                .filter((order) => ["pending", "accepted", "preparing"].includes(order.status))
+                            {orders?.length && orders
+                                .filter((order) => ["pending", "accepted", "preparing"].includes(order?.status))
                                 .map((order) => (
-                                    <Tr key={order.id}>
-                                        <Td>{order.id}</Td>
+                                    <Tr key={order?.id}>
+                                        <Td>{order?.id}</Td>
                                         <Td>
-                                            {order.items.map((item, index) => (
+                                            {order?.items?.map((item, index) => (
                                                 <Box key={index}>
                                                     {item.quantity} x {item.name}
                                                 </Box>
                                             ))}
                                         </Td>
                                         <Td>
-                                            {order.items.reduce(
+                                            {order?.items?.reduce(
                                                 (acc, item) =>
-                                                    acc + item.prepTime * item.quantity,
+                                                    acc + item.prep_time * item.quantity,
                                                 0
                                             )}{" "}
                                             min
@@ -110,7 +107,7 @@ const OrdersTab = () => {
                                             <Button
                                                 colorScheme="green"
                                                 size="sm"
-                                                onClick={() => moveToDelivery(order.id)}
+                                                onClick={() => moveToDelivery(order?.id)}
                                             >
                                                 To delivery
                                             </Button>
@@ -131,13 +128,13 @@ const OrdersTab = () => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {orders
-                                .filter((order) => order.status === "out_for_delivery")
+                            {orders?.length && orders
+                                .filter((order) => order?.status === "out_for_delivery")
                                 .map((order) => (
-                                    <Tr key={order.id}>
-                                        <Td>{order.id}</Td>
+                                    <Tr key={order?.id}>
+                                        <Td>{order?.id}</Td>
                                         <Td>
-                                            {order.items.map((item, index) => (
+                                            {order?.items?.map((item, index) => (
                                                 <Box key={index}>
                                                     {item.quantity} x {item.name}
                                                 </Box>

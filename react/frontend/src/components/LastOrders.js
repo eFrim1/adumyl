@@ -26,9 +26,6 @@ const LastOrders = ({orders}) => {
             {/* Header */}
             <Flex justify="space-between" align="center" mb={4}>
                 <Heading size="md">Last Orders</Heading>
-                <Button size="sm" variant="link">
-                    See All
-                </Button>
             </Flex>
 
             {/* Orders List */}
@@ -48,7 +45,7 @@ const LastOrders = ({orders}) => {
                                     <Flex key={index}  >
                                         {/* Image Button */}
                                             <Image
-                                                src={item.image}
+                                                src={item.image_url}
                                                 alt={item.name}
                                                 boxSize="70px"
                                                 borderRadius="full"
@@ -69,12 +66,12 @@ const LastOrders = ({orders}) => {
                             {/* Footer */}
                             <Stack>
                                 <Flex align="center" gap={2} justify="end">
-                                    <Text fontWeight="bold">Total: {order.totalPrice}</Text>
+                                    <Text fontWeight="bold">Total: {order.total_price}</Text>
 
                                 </Flex>
                                 <Flex justify="space-between">
                                     <Text fontSize="sm" color="gray.500">
-                                        {order.date}
+                                        {order.create_at}
                                     </Text>
                                     <Button size="xs" leftIcon={<RepeatIcon />} >
                                         Repeat

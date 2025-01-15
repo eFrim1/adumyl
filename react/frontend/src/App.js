@@ -9,6 +9,8 @@ import Profile from "./pages/Profile"
 import DeliveryTracker from "./pages/DeliveryTracker";
 import HelpPage from "./pages/HelpPage";
 import MenuPage from "./pages/MenuPage";
+import {AppProvider} from "./pages/OrderContext";
+import PlaceOrderPage from "./pages/PlaceOrderPage";
 
 const theme = extendTheme(
     {
@@ -37,14 +39,17 @@ const theme = extendTheme(
 function App() {
   return (
       <ChakraProvider theme={theme}>
-          <Routes>
-            <Route path="/" element={<LoginPage/>} />
-              <Route path="/home" element={<HomePage/>}/>
-              <Route path="/restaurant/" element={<MenuPage />}/>
-              <Route path="/profile" element={<Profile/>}/>
-              <Route path="/delivery_tracker" element={<DeliveryTracker />}/>
-              <Route path="/help" element={<HelpPage />}/>
-          </Routes>
+          <AppProvider >
+              <Routes>
+                <Route path="/" element={<LoginPage/>} />
+                  <Route path="/home" element={<HomePage/>}/>
+                  <Route path="/restaurant/" element={<MenuPage />}/>
+                  <Route path="/profile" element={<Profile/>}/>
+                  <Route path="/delivery_tracker" element={<DeliveryTracker />}/>
+                  <Route path="/help" element={<HelpPage />}/>
+                  <Route path="/place_order" element={<PlaceOrderPage />}/>
+              </Routes>
+          </AppProvider>
       </ChakraProvider>
   );
 }

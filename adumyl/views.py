@@ -179,6 +179,31 @@ class MenuItemView(APIView):
         except MenuItem.DoesNotExist:
             return Response({"detail": "Menu item not found."}, status=status.HTTP_404_NOT_FOUND)
 
+
+class OrdersAllView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # Fetch all orders for the authenticated user
+        orders = Order.objects.filter(user=request.user).order_by('status', '-created_at')
+        serializer = OrderSerializer(orders, many=True)
+        data = serializer.data.copy()
+
+        for key in range(len(data)):
+            order_items = OrderItem.objects.filter(order=data[key].get('id'))
+            items = []
+            for item in order_items:
+                try:
+                    menu_item = MenuItem.objects.get(id=item.menu_item.id)  # Fetch single MenuItem
+                    menu_item_serializer = MenuItemSerializer(menu_item)  # Serialize the MenuItem
+                    item_data = menu_item_serializer.data.copy()
+                    item_data['quantity'] = item.quantity  # Include quantity
+                    items.append(item_data)
+                except MenuItem.DoesNotExist:
+                    continue  # Skip if the menu item doesn't exist
+
+            data[key]['items'] = items  # Add serialized items to the order
+        return Response(data, status=status.HTTP_200_OK)
 class OrdersView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -186,11 +211,53 @@ class OrdersView(APIView):
         # Fetch all orders for the authenticated user's restaurant
         restaurant = request.user.restaurants.first()
         if not restaurant:
-            return Response({"detail": "No restaurant found for the authenticated user."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "No restaurant found for the authenticated user."},
+                            status=status.HTTP_404_NOT_FOUND)
 
         orders = Order.objects.filter(restaurant=restaurant).order_by('status', '-created_at')
         serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        data = serializer.data.copy()
+
+        for key in range(len(data)):
+            order_items = OrderItem.objects.filter(order=data[key].get('id'))
+            items = []
+            for item in order_items:
+                try:
+                    menu_item = MenuItem.objects.get(id=item.menu_item.id)  # Fetch single MenuItem
+                    menu_item_serializer = MenuItemSerializer(menu_item)  # Serialize the MenuItem
+                    item_data = menu_item_serializer.data.copy()
+                    item_data['quantity'] = item.quantity  # Include quantity
+                    items.append(item_data)
+                except MenuItem.DoesNotExist:
+                    continue  # Skip if the menu item doesn't exist
+
+            data[key]['items'] = items  # Add serialized items to the order
+        return Response(data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        order_id = kwargs.get('pk')
+        if order_id:
+
+            order = Order.objects.filter(id= order_id)
+            serializer = OrderSerializer(order, many=True)
+            data = serializer.data  # Get serialized order data
+                # Add the restaurant address to each order
+            for order in data:
+                restaurant_id = order['restaurant']
+                try:
+                    restaurant = Restaurant.objects.get(id=restaurant_id)
+
+                    order['restaurant_address'] = restaurant.address
+                except Restaurant.DoesNotExist:
+                    order['restaurant_address'] = None
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        serializer = OrderSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()  # Associate the order with the authenticated user
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, *args, **kwargs):
         # Update the status of an order
@@ -213,7 +280,7 @@ class CourierView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        courier = Courier.objects.get(user= request.user)
+        courier = Courier.objects.filter(user= request.user).first()
         if courier:
             serializer = CourierSerializer(courier)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -230,6 +297,16 @@ class CourierView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class OrderItemCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = OrderItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class DeliveryRequestsView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -237,12 +314,22 @@ class DeliveryRequestsView(APIView):
         # Fetch orders with status 'out_for_delivery' and no courier assigned
         orders = Order.objects.filter(status="out_for_delivery", courier__isnull=True)
         serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        data = serializer.data  # Get serialized order data
+
+        # Add the restaurant address to each order
+        for order in data:
+            restaurant_id = order.get('restaurant')
+            try:
+                restaurant = Restaurant.objects.get(id=restaurant_id)
+                order['restaurant_address'] = restaurant.address
+            except Restaurant.DoesNotExist:
+                order['restaurant_address'] = None
+        return Response(data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk):
         # Accept a delivery request
         try:
-            courier = Courier.objects.get(user=request.user).first()
+            courier = Courier.objects.filter(user=request.user).first()
         except Courier.DoesNotExist:
             return Response({"detail": "Courier not found."}, status=status.HTTP_404_NOT_FOUND)
 
