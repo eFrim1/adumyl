@@ -136,16 +136,24 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 # Order Serializer
 class OrderSerializer(serializers.ModelSerializer):
-    restaurant = serializers.PrimaryKeyRelatedField(queryset=Restaurant.objects.all())  # Reference to restaurant
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    courier = serializers.PrimaryKeyRelatedField(queryset=Courier.objects.all(),
-                                                 allow_null=True)  # Optional courier reference
+    restaurant = serializers.PrimaryKeyRelatedField(queryset=Restaurant.objects.all())
+    user = serializers.PrimaryKeyRelatedField(read_only=True)  # Make user read-only
+    courier = serializers.PrimaryKeyRelatedField(queryset=Courier.objects.all(), allow_null=True, required=False)
+    items = OrderItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
-        fields = ['id', 'restaurant', 'user', 'courier', 'address', 'total_price', 'payment_method', 'status', 'created_at',
-                  'updated_at']
-        read_only_fields = ['created_at', 'updated_at']
+        fields = [
+            'id', 'restaurant', 'user', 'courier', 'address', 'total_price',
+            'payment_method', 'status', 'created_at', 'updated_at', 'items'
+        ]
+        read_only_fields = ['id', 'user', 'created_at', 'updated_at']
+
+    def create(self, validated_data):
+        # Automatically set the user to the authenticated user
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+
 
 
 #Delivery Request Serializer

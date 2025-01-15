@@ -5,13 +5,13 @@ const OrderPaymentForm = ({paymentMethod, setPaymentMethod, cardDetails, setCard
         <Stack mt={4} ml={20}>
             <RadioGroup size="" value={paymentMethod} onChange={setPaymentMethod}>
                 <Stack direction="column">
-                    <Radio size="lg" value="Cash" colorScheme="green">
+                    <Radio size="lg" value="cash" colorScheme="green">
                         Cash
                     </Radio>
-                    <Radio size="lg" value="Card to courier" colorScheme="green">
+                    <Radio size="lg" value="card" colorScheme="green">
                         Card to courier
                     </Radio>
-                    <Radio size="lg" value="Card online" colorScheme="green">
+                    <Radio size="lg" value="card" colorScheme="green">
                         Card online
                     </Radio>
                 </Stack>
@@ -19,7 +19,7 @@ const OrderPaymentForm = ({paymentMethod, setPaymentMethod, cardDetails, setCard
 
 
                 <Stack mt={4} ml={20}>
-                    <FormControl isRequired>
+                    <FormControl isRequired maxW="400px">
                         <FormLabel color="white">Card Number</FormLabel>
                         <Input
                             value={cardDetails.cardNumber}
@@ -28,7 +28,7 @@ const OrderPaymentForm = ({paymentMethod, setPaymentMethod, cardDetails, setCard
                             }
                         />
                     </FormControl>
-                    <FormControl isRequired>
+                    <FormControl isRequired maxW="400px">
                         <FormLabel color="white">Expiry Date</FormLabel>
                         <Input
                             value={cardDetails.expiryDate}
@@ -37,7 +37,7 @@ const OrderPaymentForm = ({paymentMethod, setPaymentMethod, cardDetails, setCard
                             }
                         />
                     </FormControl>
-                    <FormControl isRequired>
+                    <FormControl isRequired maxW="400px">
                         <FormLabel color="white">CVV</FormLabel>
                         <Input
                             value={cardDetails.cvv}
@@ -48,7 +48,7 @@ const OrderPaymentForm = ({paymentMethod, setPaymentMethod, cardDetails, setCard
                     </FormControl>
                 </Stack>
 
-            <Button colorScheme="green" onClick={handleOrder}>
+            <Button colorScheme="green" onClick={handleOrder} mt={8} maxW="400px">
                 Place Order
             </Button>
         </Stack>

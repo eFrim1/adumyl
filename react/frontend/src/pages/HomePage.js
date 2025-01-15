@@ -4,16 +4,17 @@ import Navbar from "../components/NavBar";
 import LastOrders from "../components/LastOrders";
 import {Box, Center, Flex, Grid, Spinner, Text, useToast, VStack} from "@chakra-ui/react";
 import FoodCategorySelector from "../components/FoodCategories";
-import {orders} from "../utils/demos"
 import Pagination from "../components/Pagination";
 import {getRestaurantsAll} from "../services/restaurant";
 import {useNavigate} from "react-router-dom";
+import {fetchOrderHistory} from "../services/orders";
 
 
 const RestaurantsPage = () => {
     const [pageItems, setPageItems] = useState([]);
     const [restaurants, setRestaurants] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [orders, setOrders] = useState([]);
     const toast = useToast();
     const navigate = useNavigate();
 
@@ -34,7 +35,7 @@ const RestaurantsPage = () => {
         const fetchRestaurant = async () => {
             try {
                 const data = await getRestaurantsAll();
-                setRestaurants(data);
+                setRestaurants(data.slice(0,3));
             } catch (error) {
                 if (error.response?.status !== 404) {
                     toast({
@@ -51,6 +52,26 @@ const RestaurantsPage = () => {
         };
 
         fetchRestaurant();
+    }, [toast]);
+
+    useEffect(() => {
+        // Fetch restaurant details on component mount
+        const getOrders = async () => {
+            try {
+                const data = await fetchOrderHistory();
+                setOrders(data.slice(0,3)); // Populate state with fetched data
+            } catch (error) {
+                toast({
+                    title: "Error",
+                    description: error.message || "An error occurred. Please try again.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
+        };
+
+        getOrders();
     }, [toast]);
 
     if(loading){

@@ -9,7 +9,7 @@ import Profile from "./pages/Profile"
 import DeliveryTracker from "./pages/DeliveryTracker";
 import HelpPage from "./pages/HelpPage";
 import MenuPage from "./pages/MenuPage";
-import {CartProvider} from "./pages/CartContext";
+import {AppProvider} from "./pages/OrderContext";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 
 const theme = extendTheme(
@@ -39,7 +39,7 @@ const theme = extendTheme(
 function App() {
   return (
       <ChakraProvider theme={theme}>
-          <CartProvider >
+          <AppProvider >
               <Routes>
                 <Route path="/" element={<LoginPage/>} />
                   <Route path="/home" element={<HomePage/>}/>
@@ -49,7 +49,7 @@ function App() {
                   <Route path="/help" element={<HelpPage />}/>
                   <Route path="/place_order" element={<PlaceOrderPage />}/>
               </Routes>
-          </CartProvider>
+          </AppProvider>
       </ChakraProvider>
   );
 }

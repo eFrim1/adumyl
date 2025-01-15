@@ -32,12 +32,12 @@ export default function Navbar() {
 
             <Flex>
                 <HStack spacing="20px">
-                    <IconButton
-                        variant='ghost'
-                        colorScheme='red'
-                        aria-label="Favourites"
-                        icon={<IconHeart/>}>
-                    </IconButton>
+                    {/*<IconButton*/}
+                    {/*    variant='ghost'*/}
+                    {/*    colorScheme='red'*/}
+                    {/*    aria-label="Favourites"*/}
+                    {/*    icon={<IconHeart/>}>*/}
+                    {/*</IconButton>*/}
                     <IconButton
                         variant='ghost'
                         colorScheme='green'

@@ -3,8 +3,8 @@ import {Button, FormControl, FormLabel, HStack, Input, Stack} from "@chakra-ui/r
 
 const OrderAddressForm = ({deliveryAddress, setDeliveryAddress, handleNext}) => {
     return(
-        <Stack mt={4}>
-            <FormControl isRequired>
+        <Stack mt={4} ml={20}>
+            <FormControl isRequired maxW="400px">
                 <FormLabel color="white">City</FormLabel>
                 <Input
                     value={deliveryAddress.city}
@@ -13,7 +13,7 @@ const OrderAddressForm = ({deliveryAddress, setDeliveryAddress, handleNext}) => 
                     }
                 />
             </FormControl>
-            <FormControl isRequired>
+            <FormControl isRequired maxW="400px">
                 <FormLabel color="white">Street</FormLabel>
                 <Input
                     value={deliveryAddress.street}
@@ -23,7 +23,7 @@ const OrderAddressForm = ({deliveryAddress, setDeliveryAddress, handleNext}) => 
                 />
             </FormControl>
             <HStack>
-                <FormControl isRequired>
+                <FormControl isRequired maxW="195px">
                     <FormLabel color="white">Number</FormLabel>
                     <Input
                         value={deliveryAddress.number}
@@ -32,7 +32,7 @@ const OrderAddressForm = ({deliveryAddress, setDeliveryAddress, handleNext}) => 
                         }
                     />
                 </FormControl>
-                <FormControl>
+                <FormControl maxW="195px">
                     <FormLabel color="white">Floor</FormLabel>
                     <Input
                         value={deliveryAddress.floor}
@@ -42,7 +42,7 @@ const OrderAddressForm = ({deliveryAddress, setDeliveryAddress, handleNext}) => 
                     />
                 </FormControl>
             </HStack>
-            <Button colorScheme="green" onClick={handleNext}>
+            <Button colorScheme="green" onClick={handleNext} maxW="400px" mt={8}>
                 Proceed to Payment
             </Button>
         </Stack>

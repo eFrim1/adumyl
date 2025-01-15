@@ -23,7 +23,7 @@ const Profile = () => {
             case 'Edit Profile':
                 return <ProfileInfo />;
             case 'Order History':
-                return <OrderHistory orders={orderHistory()}/>;
+                return <OrderHistory />;
             case 'My Restaurants':
                 return <MyRestaurant />;
             case 'Delivery':
