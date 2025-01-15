@@ -91,8 +91,9 @@ class RestaurantsAllView(APIView):
             serializer = RestaurantSerializer(restaurants, many=True)
             # if serializer.errors:
             #     return Response({"detail": "Request error"}, status=status.HTTP_404_NOT_FOUND)
+            print(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"detail": "No restaurant found"}, status=status.HTTP_200_OK)
+        return Response({"detail": "No restaurant found"}, status=status.HTTP_204_NO_CONTENT)
 
 
 class RestaurantView(APIView):
@@ -100,8 +101,10 @@ class RestaurantView(APIView):
 
     def post(self, request, *args, **kwargs):
         serializer = RestaurantSerializer(data=request.data, context={'request': request})
+
         if serializer.is_valid():
             serializer.save()
+            print(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

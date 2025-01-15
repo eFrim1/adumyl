@@ -35,7 +35,7 @@ const RestaurantsPage = () => {
         const fetchRestaurant = async () => {
             try {
                 const data = await getRestaurantsAll();
-                setRestaurants(data.slice(0,3));
+                setRestaurants(data);
             } catch (error) {
                 if (error.response?.status !== 404) {
                     toast({

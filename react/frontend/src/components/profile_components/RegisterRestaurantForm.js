@@ -15,16 +15,18 @@ const RegisterForm = ({ onRegister }) => {
     const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
     const [formData, setFormData] = useState({
-        name: "Ceva Bun",
-        address: "Strada Avram Iancu nr 25",
-        phone_number: "0744556677",
-        operating_hours: "8-16",
-        days: "Mon,Tue,Wed",
+        name: "",
+        address: "",
+        phone_number: "",
+        operating_hours: "",
+        days: "",
         image_url: "",
     });
 
     const handleToggleDay = (day) => {
-        const daysArray = formData.days.split(","); // Split string into array
+        if(!formData) return
+
+        const daysArray = formData?.days.split(","); // Split string into array
         if (daysArray.includes(day)) {
             // Remove the day if already selected
             setFormData({

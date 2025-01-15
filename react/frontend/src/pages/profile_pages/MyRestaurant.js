@@ -16,15 +16,15 @@ const MyRestaurant = () => {
                 const data = await getRestaurant();
                 setRestaurant(data); // Populate state with fetched data
             } catch (error) {
-                if (error.response?.status !== 404) {
-                    toast({
-                        title: "Error",
-                        description: error.message || "An error occurred. Please try again.",
-                        status: "error",
-                        duration: 3000,
-                        isClosable: true,
-                    });
-                }
+                // if (error.response?.status !== 404) {
+                //     toast({
+                //         title: "Error",
+                //         description: error.message || "An error occurred. Please try again.",
+                //         status: "error",
+                //         duration: 3000,
+                //         isClosable: true,
+                //     });
+                // }
             } finally {
                 setLoading(false); // Stop loading regardless of success or failure
             }

@@ -1,15 +1,30 @@
 import {Box, Flex, Heading, Spacer, Stack, Image, Text, IconButton, HStack} from "@chakra-ui/react";
 import {AddIcon, MinusIcon} from "@chakra-ui/icons";
+import {useCart} from "../pages/OrderContext";
 
-const ShoppingCart = ({ cart, onQuantityChange }) => {
-    const total = cart.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0).toFixed(2);
+const ShoppingCart = () => {
+    const {cart, setCart} = useCart()
+    const total = cart?.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0).toFixed(2);
+
+
+    const handleQuantityChange = (itemId, change) => {
+        setCart((prevCart) =>
+            prevCart
+                .map((item) =>
+                    item.id === itemId
+                        ? { ...item, quantity: Math.max(item.quantity + change, 0) } // Prevent quantity < 0
+                        : item
+                )
+                .filter((item) => item.quantity > 0) // Remove items with 0 quantity
+        );
+    };
 
     const handleIncrease = (itemId) => {
-        onQuantityChange(itemId, 1); // Increment quantity
+        handleQuantityChange(itemId, 1); // Increment quantity
     };
 
     const handleDecrease = (itemId) => {
-        onQuantityChange(itemId, -1); // Decrement quantity
+        handleQuantityChange(itemId, -1); // Decrement quantity
     };
 
     return (
@@ -23,7 +38,7 @@ const ShoppingCart = ({ cart, onQuantityChange }) => {
 
             {/* Items */}
             <Stack spacing={4} overflowY="auto" h="700px">
-                {cart.map((item, index) => (
+                {cart?.map((item, index) => (
                     <Flex
                         key={index}
                         p={4}

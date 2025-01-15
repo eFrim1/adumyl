@@ -48,17 +48,6 @@ const MenuPage = () => {
         });
     };
 
-    const handleQuantityChange = (itemId, change) => {
-        setCart((prevCart) =>
-            prevCart
-                .map((item) =>
-                    item.id === itemId
-                        ? { ...item, quantity: Math.max(item.quantity + change, 0) } // Prevent quantity < 0
-                        : item
-                )
-                .filter((item) => item.quantity > 0) // Remove items with 0 quantity
-        );
-    };
 
     const handlePageItemsChange = (currentItems) => {
         setPageItems(currentItems);
@@ -140,7 +129,7 @@ const MenuPage = () => {
                     />
                 </VStack>
 
-                <ShoppingCart cart={cart} onQuantityChange={handleQuantityChange} />
+                <ShoppingCart  />
             </Flex>
         </Flex>
     );

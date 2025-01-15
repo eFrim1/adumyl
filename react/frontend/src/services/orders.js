@@ -9,7 +9,7 @@ export const fetchOrderById = async (id) => {
 };
 
 export const fetchOrderHistory = async () => {
-    const url = "/orders/";
+    const url = "/orders-all/";
     return await apiRequest({
         url: url,
         method: "GET",
