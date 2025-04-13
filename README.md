@@ -13,9 +13,6 @@ This is a full-stack web application for an online food ordering platform. The b
 
 
 ### Frontend
-**Navigate to the frontend directory:**
-
-  `cd react/frontend`
 
 **Install dependencies:**
 
